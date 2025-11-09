@@ -4,7 +4,7 @@ import com.veeva.automation.factory.PageFactoryManager;
 import com.veeva.automation.pages.derivedproduct1.DP1SlidesPage;
 import com.veeva.automation.pages.derivedproduct2.DP2FooterPage;
 import com.veeva.automation.steps.Hooks;
-import com.veeva.automation.utils.ConfigReader;
+import com.veeva.automation.utils.ConfigReaderJSON;
 import com.veeva.automation.utils.TestDataUtils;
 
 import io.cucumber.java.en.*;
@@ -18,9 +18,8 @@ public class DP1SlidesSteps {
 	private PageFactoryManager factory;
     private final DP1SlidesPage slidesPage;
     private List<String> actualTitlesData;
-    private List<String> actualDurationSlideData;
-	private static final String PAGE_URL = ConfigReader.get("base.url.dp1");
-	private static final String SLIDES_TITLE_DATA = ConfigReader.get("slides.title.data");
+	private static final String PAGE_URL = ConfigReaderJSON.get("environment.urls.dp1");
+	private static final String SLIDES_TITLE_DATA = ConfigReaderJSON.get("paths.slidesTitleJson");
 
 
 	public DP1SlidesSteps(Hooks hooks) {

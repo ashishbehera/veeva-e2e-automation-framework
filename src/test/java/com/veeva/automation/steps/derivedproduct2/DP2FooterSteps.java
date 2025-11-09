@@ -3,7 +3,7 @@ package com.veeva.automation.steps.derivedproduct2;
 import com.veeva.automation.factory.PageFactoryManager;
 import com.veeva.automation.pages.derivedproduct2.*;
 import com.veeva.automation.steps.Hooks;
-import com.veeva.automation.utils.ConfigReader;
+import com.veeva.automation.utils.ConfigReaderJSON;
 
 import io.cucumber.java.en.*;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class DP2FooterSteps {
 	private PageFactoryManager factory;
 
 	List<Map<String, String>> allProducts = new ArrayList<>();
-	private static final String PAGE_URL = ConfigReader.get("base.url.dp2");
+	private static final String PAGE_URL = ConfigReaderJSON.get("environment.urls.dp2");
 
 	public DP2FooterSteps(Hooks hooks) {
 		factory = hooks.getPageFactory();

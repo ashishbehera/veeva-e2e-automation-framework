@@ -6,7 +6,7 @@ import com.veeva.automation.factory.PageFactoryManager;
 import com.veeva.automation.pages.coreproduct.CoreHomePage;
 import com.veeva.automation.pages.coreproduct.CoreNewFeaturesPage;
 import com.veeva.automation.steps.Hooks;
-import com.veeva.automation.utils.ConfigReader;
+import com.veeva.automation.utils.ConfigReaderJSON;
 import com.veeva.automation.utils.PageTitles;
 
 import io.cucumber.java.en.Given;
@@ -18,7 +18,7 @@ public class CoreVideoSteps {
 	private PageFactoryManager factory;
 	private CoreHomePage home;
 	private CoreNewFeaturesPage features;
-    private static final String PAGE_URL = ConfigReader.get("base.url.cp");
+    private static final String PAGE_URL = ConfigReaderJSON.get("environment.urls.cp");
 
 
 	public CoreVideoSteps(Hooks hooks) {

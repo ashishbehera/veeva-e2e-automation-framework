@@ -1,6 +1,6 @@
 package com.veeva.automation.base;
 
-import com.veeva.automation.utils.ConfigReader;
+import com.veeva.automation.utils.ConfigReaderJSON;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 import java.time.Duration;
@@ -31,9 +31,9 @@ public class DriverManager {
 
         String browser = (browserName != null && !browserName.isEmpty()) 
                 ? browserName.toLowerCase() 
-                : ConfigReader.get("browser").toLowerCase();
+                : ConfigReaderJSON.get("browser.type").toLowerCase();
 
-        boolean headless = ConfigReader.getBoolean("headless");
+        boolean headless = ConfigReaderJSON.getBoolean("browser.headless");
         System.out.println("🚀 Running browser: " + browser + " | Headless: " + headless);
 
         switch (browser) {
@@ -76,7 +76,7 @@ public class DriverManager {
         if (driver.get() == null) {
             String browser = System.getProperty("browser");
             if (browser == null || browser.isEmpty()) {
-                browser = ConfigReader.get("browser");
+                browser = ConfigReaderJSON.get("browser.type");
             }
             initDriver(browser);
         }

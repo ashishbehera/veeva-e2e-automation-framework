@@ -43,7 +43,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 
 import com.veeva.automation.base.DriverManager;
-import com.veeva.automation.utils.ConfigReader;
+import com.veeva.automation.utils.ConfigReaderJSON;
 
 /**
  * UNIVERSAL TestNG Runner
@@ -78,7 +78,7 @@ public class TestNGTestRunner extends AbstractTestNGCucumberTests {
         // ----------------------------
         String browser = System.getProperty("browser");
         if (browser == null || browser.isEmpty()) browser = xmlBrowser;
-        if (browser == null || browser.isEmpty()) browser = ConfigReader.get("browser"); // fallback
+        if (browser == null || browser.isEmpty()) browser = ConfigReaderJSON.get("browser.type"); // fallback
         if (browser == null || browser.isEmpty()) browser = DEAFAULT_BROWSER; // final fallback
         System.setProperty("browser", browser);
 

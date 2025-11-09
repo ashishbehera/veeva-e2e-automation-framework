@@ -10,7 +10,7 @@ import com.veeva.automation.pages.coreproduct.CoreHomePage;
 import com.veeva.automation.pages.coreproduct.CoreShopPage;
 import com.veeva.automation.pages.coreproduct.JacketsPage;
 import com.veeva.automation.steps.Hooks;
-import com.veeva.automation.utils.ConfigReader;
+import com.veeva.automation.utils.ConfigReaderJSON;
 import com.veeva.automation.utils.JacketDataUtils;
 
 import io.cucumber.java.en.*;
@@ -23,7 +23,7 @@ public class CoreShopSteps {
     private CoreShopPage shop;
     private JacketsPage jackets;
     List<Map<String, String>> allProducts = new ArrayList<>();
-    private static final String PAGE_URL = ConfigReader.get("base.url.cp");
+    private static final String PAGE_URL = ConfigReaderJSON.get("environment.urls.cp");
 
 
 
