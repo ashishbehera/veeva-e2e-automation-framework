@@ -37,6 +37,15 @@ This **Veeva E2E Automation Framework** enables automated end-to-end UI and func
 - **Extent Reports**
 - **JSON-based Test Data**
 
+                             
+    ### **The overall architecture of the Veeva Automation Framework**
+
+![Framework Architecture](docs/architecture/fw_architecture.png)
+
+  ### **Sequence Diagram**
+
+![Sequence Diagram](docs/architecture/fw_sequence.png)
+
 ### 🔑 Key Highlights
 - Modular **Page Object Model (POM)**
 - Dynamic **Cucumber runner generation**
