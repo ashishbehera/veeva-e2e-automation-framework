@@ -33,7 +33,10 @@ public class DriverManager {
                 ? browserName.toLowerCase() 
                 : ConfigReaderJSON.get("browser.type").toLowerCase();
 
-        boolean headless = ConfigReaderJSON.getBoolean("browser.headless");
+        String headlessProp = System.getProperty("browser.headless");
+        boolean headless = (headlessProp != null) 
+            ? Boolean.parseBoolean(headlessProp) 
+            : ConfigReaderJSON.getBoolean("browser.headless");
         System.out.println("🚀 Running browser: " + browser + " | Headless: " + headless);
 
         switch (browser) {
