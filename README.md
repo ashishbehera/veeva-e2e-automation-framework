@@ -123,10 +123,6 @@ mvn clean test -Dcucumber.filter.tags="@Smoke or @Regression"
 # Run specific module and override browser
 mvn clean test -Dcucumber.filter.tags="@Smoke" -Dbrowser=firefox
 
-# Run specific module on headless mode
-mvn clean test -Dcucumber.filter.tags="@Smoke" -Dbrowser.headless=true
-mvn clean test -Dbrowser.headless=true
-
 ```
 
 ### 🧩 From TestNG XML
