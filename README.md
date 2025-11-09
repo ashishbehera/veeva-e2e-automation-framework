@@ -68,7 +68,7 @@ This **Veeva E2E Automation Framework** enables automated end-to-end UI and func
 
 ## Prerequisites
 - **Java 11+**
-- **Maven 3.8+**
+- **Maven 3.9+**
 - **Chrome/Firefox browsers**
 - **ChromeDriver/GeckoDriver** in PATH
 - **IDE:** IntelliJ IDEA or Eclipse recommended
