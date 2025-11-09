@@ -103,20 +103,20 @@ baseUrl=https://www.nba.com/warriors
 ### 🧪 From Command Line
 ```bash
 # Run smoke tests
-mvn clean test -Dcucumber.filter.tags="@smoke"
+mvn clean test -Dcucumber.filter.tags="@Smoke"
 
 # Run regression suite
-mvn clean test -Dcucumber.filter.tags="@regression"
+mvn clean test -Dcucumber.filter.tags="@Regression"
 
 # Run multiple tags
-mvn clean test -Dcucumber.filter.tags="@smoke or @dp1"
+mvn clean test -Dcucumber.filter.tags="@Smoke or @Regression"
 
 # Run specific module and override browser
-mvn clean test -Dcucumber.filter.tags="@core" -Dbrowser=firefox
+mvn clean test -Dcucumber.filter.tags="@Smoke" -Dbrowser=firefox
 ```
 
 ### 🧩 From TestNG XML
-You can run multiple modules or browsers in parallel using `testng.xml`.
+You can run multiple modules or browsers in parallel using `testng.xml` using "mvn clean test" command
 
 ```xml
 <suite name="Veeva Automation Suite" parallel="tests">

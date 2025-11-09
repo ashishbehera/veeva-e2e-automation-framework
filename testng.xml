@@ -9,9 +9,9 @@
         </classes>
     </test>
 
- <!--    <test name="Firefox Tests">
+   <!--  <test name="Firefox Tests">
         <parameter name="browser" value="firefox"/>
-        <parameter name="cucumber.filter.tags" value="@Smoke"/> Same or different tags
+        <parameter name="cucumber.filter.tags" value="@Regression"/> Same or different tags
         <classes>
             <class name="com.veeva.automation.runner.RunnerSetup"/>
             <class name="com.veeva.automation.runner.TestNGTestRunner"/>
@@ -19,4 +19,3 @@
     </test> -->
 
 </suite>
-
