@@ -1,9 +1,11 @@
 package com.veeva.automation.pages.coreproduct;
 
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 
 import com.veeva.automation.base.BasePage;
+import com.veeva.automation.utils.LogUtils;
 
 import java.util.List;
 import java.io.FileWriter;
@@ -11,7 +13,7 @@ import java.io.IOException;
 
 public class CoreShopPage extends BasePage {
 
-
+    
     public CoreShopPage(WebDriver driver) {
     	super(driver);
     }
