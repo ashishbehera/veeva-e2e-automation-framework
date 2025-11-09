@@ -4,10 +4,10 @@ public class FrameworkConstants {
 	
 	private FrameworkConstants() {} // Prevent instantiation
 	
-	   private static final String CONFIG_FILE_PATH = "src/main/resources/config/config.properties";
-
-	    public static String getConfigFilePath() {
-	        return CONFIG_FILE_PATH;
+	   private static final String JSON_CONFIG_FILE_PATH = "src/main/resources/config/config.json";
+	    
+	    public static String getConfigJsonFilePath() {
+	        return JSON_CONFIG_FILE_PATH;
 	    }
 
     // 🔹 Browser defaults

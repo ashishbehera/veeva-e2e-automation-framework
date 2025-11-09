@@ -1,0 +1,56 @@
+{
+  "environment": {
+    "current": "QA",
+    "urls": {
+      "cp": "https://www.nba.com/warriors",
+      "dp1": "https://www.nba.com/sixers",
+      "dp2": "https://www.nba.com/bulls"
+    }
+  },
+
+  "browser": {
+    "type": "chrome",
+    "headless": false,
+    "implicitWait": 10,
+    "explicitWait": 20,
+    "pageLoadTimeout": 40,
+    "maximizeWindow": true
+  },
+
+  "parallelExecution": {
+    "mode": "scenario",
+    "threadCount": 2
+  },
+
+  "paths": {
+    "testDataJson": "src/main/resources/data/testdata.json",
+    "slidesTitleJson": "src/test/resources/testdata/ExpectedSlides.json",
+    "reportFolder": "target/reports",
+    "screenshotFolder": "target/screenshots"
+  },
+
+  "reporting": {
+    "extentReport": {
+      "title": "Veeva E2E Automation Report",
+      "name": "Automation Execution Summary",
+      "output": "target/reports/extent-report.html"
+    },
+    "cucumberReport": {
+      "output": "target/cucumber-reports/cucumber.json"
+    }
+  },
+
+  "logging": {
+    "level": "INFO",
+    "configFile": "src/main/resources/logs/log4j2.xml"
+  },
+
+  "api": {
+    "baseUrl": "https://reqres.in",
+    "timeout": 30
+  },
+
+  "pages": {
+    "newsFeaturesTitle": "News & Media | Golden State Warriors"
+  }
+}
