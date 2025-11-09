@@ -6,6 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import static com.veeva.automation.constants.FrameworkConstants.*;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class BasePage {
 
     protected WebDriver driver;
     protected WebDriverWait wait;
+    private int scrollValue=10;
 
     // 🔹 Popups / Modals
     @FindBy(css = ".CustomModal_backdrop__TTyum")
@@ -34,7 +36,7 @@ public class BasePage {
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_WAIT));
         PageFactory.initElements(driver, this);
     }
 
@@ -63,7 +65,8 @@ public class BasePage {
                         System.out.println("✅ Modal closed via JS backdrop click.");
                     }
                     wait.until(ExpectedConditions.invisibilityOf(modalBackdrop));
-                } catch (Exception ignored) {}
+                } catch (Exception ignored) {
+                }
             }
         } catch (Exception e) {
             System.out.println("ℹ️ No blocking popups detected: " + e.getMessage());
@@ -91,7 +94,7 @@ public class BasePage {
             wait.until(ExpectedConditions.elementToBeClickable(element)).click();
             System.out.println("🛒 Clicked on Shop link, waiting for new window...");
 
-            new WebDriverWait(driver, Duration.ofSeconds(10))
+            new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_WAIT))
                     .until(d -> d.getWindowHandles().size() > 1);
 
             Set<String> allWindows = driver.getWindowHandles();
@@ -167,7 +170,7 @@ public class BasePage {
     public void scrollAndWaitForVideos() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         int scrolls = 0;
-        while (scrolls < 10) {
+        while (scrolls < scrollValue) {
             js.executeScript("window.scrollBy(0, document.body.scrollHeight)");
             scrolls++;
         }
@@ -183,14 +186,30 @@ public class BasePage {
      */
     protected boolean isElementVisible(WebElement element) {
         try {
-        	wait.until(ExpectedConditions.visibilityOf(element));
+            wait.until(ExpectedConditions.visibilityOf(element));
             return true;
         } catch (TimeoutException e) {
             return false;
         }
     }
-    
+
     protected int countElements(List<WebElement> elements) {
         return elements.size();
+    }
+
+    // Generic scroll to bottom
+    public void scrollToBottom() {
+        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
+
+    @SuppressWarnings("unchecked")
+    protected List<WebElement> getElements(WebElement parent, String cssSelector) {
+        try {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            return (List<WebElement>) js.executeScript(
+                    "return arguments[0].querySelectorAll(arguments[1]);", parent, cssSelector);
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
     }
 }

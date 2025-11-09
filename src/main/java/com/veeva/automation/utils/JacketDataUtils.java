@@ -8,10 +8,12 @@ import java.util.List;
 import java.util.Map;
 
 public class JacketDataUtils {
+	
+	private static final String JACKET_DATA_FILE_PATH = "target/JacketData.txt";
 
     public static  File saveJacketData(List<Map<String, String>> allProducts) throws IOException {
     	System.out.println("I am inside saveJacketData utility methods");
-        File file = new File("target/JacketData.txt");
+        File file = new File(JACKET_DATA_FILE_PATH);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             for (Map<String, String> item : allProducts) {
                 writer.write(item.get("Title") + " | " + item.get("Price") + " | Top Seller: " + item.get("TopSeller"));

@@ -41,13 +41,13 @@ public class DP2FooterSteps {
 
 	@When("user extracts all footer links into a CSV file")
 	public void user_extracts_all_footer_links_into_csv() {
-		footerLinks = footerPage.extractFooterLinks();
-		footerPage.saveLinksToCSV(footerLinks, "target/FooterLinks.csv");
+		footerLinks = footerPage.getFooterLinks();
+		footerPage.saveFooterLinksCSV("target/FooterLinks.csv");
 	}
 
 	@Then("user should verify that no duplicate hyperlinks are present")
 	public void user_should_verify_no_duplicate_links() {
-		List<String> duplicates = footerPage.findDuplicateLinks(footerLinks);
+		List<String> duplicates = footerPage.findDuplicateFooterLinks();
 
 		if (!duplicates.isEmpty()) {
 			System.out.println("⚠️ Duplicate links found:");
@@ -57,7 +57,7 @@ public class DP2FooterSteps {
 		}
 		
 		   // 🧩 REST API Validation for Footer Links
-	         footerPage.validateFooterLinkStatus(footerLinks);
+	         footerPage.validateFooterLinks();
 
 	}
 }

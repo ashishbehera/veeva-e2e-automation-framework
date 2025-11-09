@@ -11,11 +11,9 @@ import java.io.IOException;
 
 public class CoreShopPage extends BasePage {
 
-    private WebDriver driver;
 
     public CoreShopPage(WebDriver driver) {
     	super(driver);
-        this.driver = driver;
     }
 
 

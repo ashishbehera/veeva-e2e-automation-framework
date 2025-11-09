@@ -14,6 +14,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import static com.veeva.automation.constants.FrameworkConstants.*;
 
 /**
  * DriverManager
@@ -40,7 +41,7 @@ public class DriverManager {
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
                 if (headless) chromeOptions.addArguments("--headless=new", "--disable-gpu");
-                chromeOptions.addArguments("--window-size=1920,1080", "--disable-blink-features=AutomationControlled");
+                chromeOptions.addArguments(CHROME_COMMON_ARGS);
                 chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
                 chromeOptions.setExperimentalOption("useAutomationExtension", false);
                 driver.set(new ChromeDriver(chromeOptions));
@@ -50,7 +51,7 @@ public class DriverManager {
                 WebDriverManager.firefoxdriver().setup();
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
                 if (headless) firefoxOptions.addArguments("--headless");
-                firefoxOptions.addArguments("--width=1920", "--height=1080");
+                firefoxOptions.addArguments(FIREFOX_COMMON_ARGS);
                 firefoxOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
                 driver.set(new FirefoxDriver(firefoxOptions));
                 break;
@@ -59,7 +60,7 @@ public class DriverManager {
                 WebDriverManager.edgedriver().setup();
                 EdgeOptions edgeOptions = new EdgeOptions();
                 if (headless) edgeOptions.addArguments("--headless=new");
-                edgeOptions.addArguments("--window-size=1920,1080");
+                edgeOptions.addArguments("--window-size=" + BROWSER_WIDTH + "," + BROWSER_HEIGHT);
                 driver.set(new EdgeDriver(edgeOptions));
                 break;
 
@@ -67,8 +68,8 @@ public class DriverManager {
                 throw new RuntimeException("❌ Unsupported browser: " + browser);
         }
 
-        driver.get().manage().window().setSize(new Dimension(1920, 1080));
-        driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        driver.get().manage().window().setSize(new Dimension(BROWSER_WIDTH, BROWSER_HEIGHT));
+        driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(IMPLICIT_WAIT_SECONDS));
     }
 
     public static WebDriver getDriver() {

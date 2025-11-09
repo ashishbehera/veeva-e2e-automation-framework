@@ -30,6 +30,8 @@ public class JacketsPage extends BasePage{
 	private String title = ".product-card-title";
 	private String price = ".price-card";
 	private String badge = ".product-badges-container";
+	private String pageAttribute = "aria-disabled";
+	private String pageAttributeValue = "aria-disabled";
 
 
     public JacketsPage(WebDriver driver) {
@@ -65,7 +67,7 @@ public class JacketsPage extends BasePage{
      */
     public boolean goToNextPageIfExists() {
         try {
-            if (nextPage.getAttribute("aria-disabled").equalsIgnoreCase("false")) {
+            if (nextPage.getAttribute(pageAttribute).equalsIgnoreCase(pageAttributeValue)) {
                 nextPage.click();
                 wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(productCard)));
                 return true;

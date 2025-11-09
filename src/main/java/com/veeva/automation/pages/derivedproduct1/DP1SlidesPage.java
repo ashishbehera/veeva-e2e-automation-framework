@@ -1,22 +1,17 @@
 package com.veeva.automation.pages.derivedproduct1;
 
 import com.veeva.automation.base.BasePage;
-import com.veeva.automation.utils.TestDataUtils;
+import static com.veeva.automation.constants.FrameworkConstants.*;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class DP1SlidesPage extends BasePage {
-
-    private WebDriver driver;
-    private WebDriverWait wait;
 
     // Main slide elements
     @FindBy(css = "div[class*='CourtsideBox_courtsideBoxItemMain']")
@@ -25,16 +20,19 @@ public class DP1SlidesPage extends BasePage {
     @FindBy(css = "li[data-testid$='nav-item-/sixers/tickets']")
     private WebElement ticketMenuElement;
  
+ 
 
     // Class-level selectors as Strings
     private  String teamSelector="span[class*='Game_gameTeam'], div[class*='Game_featuredGameTeam'] p[class*='text-sm']";
     private  String statusSelector="span[data-testid$='status-indicator']";
-
+    private int count=3;
+    private String regex = "\\s*\\(\\d+\\s*-\\s*\\d+\\)\\s*";
+    private String splitWord = "\\s+";
+    
 
     public DP1SlidesPage(WebDriver driver) {
         super(driver);
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_WAIT));
     }
     
     public void waitForTicketsMenuToAppear() {  	
@@ -60,8 +58,8 @@ public class DP1SlidesPage extends BasePage {
                 for (WebElement detail : teamDetails) {
                 	String text = null;
                 	System.out.println("Team Details Size:"+teamDetails.size());
-                	if(teamDetails.size() <=3) text = detail.getAttribute("innerText").trim();
-                	if(teamDetails.size() > 3) text = detail.getText().trim();
+                	if(teamDetails.size() <= count) text = detail.getAttribute("innerText").trim();
+                	if(teamDetails.size() > count) text = detail.getText().trim();
                 	System.out.println("Text is:"+text );
                     if (!text.isEmpty() && rawInfo.indexOf(text) == -1) {
                         rawInfo.append(text).append(" ");
@@ -89,23 +87,12 @@ public class DP1SlidesPage extends BasePage {
         return slideSummaries;
     }
 
-    // 🔹 Refactored helper — uses JS to get child elements without By
-    @SuppressWarnings("unchecked")
-    private List<WebElement> getElements(WebElement parent, String cssSelector) {
-        try {
-            JavascriptExecutor js = (JavascriptExecutor) driver;
-            return (List<WebElement>) js.executeScript(
-                    "return arguments[0].querySelectorAll(arguments[1]);", parent, cssSelector
-            );
-        } catch (Exception e) {
-            return new ArrayList<>();
-        }
-    }
+
 
     private String formatSlideDetailsNew(String rawInfo) {
-        String cleaned = rawInfo.replaceAll("\\s*\\(\\d+\\s*-\\s*\\d+\\)\\s*", " ").trim();
-        String[] parts = cleaned.split("\\s+");
-        if (parts.length == 3) {
+        String cleaned = rawInfo.replaceAll(regex, " ").trim();
+        String[] parts = cleaned.split(splitWord);
+        if (parts.length == count) {
             return String.format("%s VS %s - %s", parts[0], parts[1], parts[2]);
         }
         return null;

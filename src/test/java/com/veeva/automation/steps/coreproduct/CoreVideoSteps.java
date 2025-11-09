@@ -46,9 +46,9 @@ public class CoreVideoSteps {
 	@Then("I should be on the New & Features page")
 	public void i_should_be_on_the_new_features_page() {
 
-		//boolean result = features.verifyPageTitle(PageTitles.NEWS_FEATURES_TITLE);
-		//Assert.assertTrue(result, "❌ Page title does not match expected!");
-		//System.out.println("✅ Page title verified successfully!");
+		boolean result = features.verifyPageTitle(PageTitles.NEWS_FEATURES_TITLE);
+		Assert.assertTrue(result, "❌ Page title does not match expected!");
+		System.out.println("✅ Page title verified successfully!");
 	}
 
 	@When("I count all video feed items on the page")

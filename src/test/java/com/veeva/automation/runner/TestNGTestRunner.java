@@ -66,6 +66,9 @@ import com.veeva.automation.utils.ConfigReader;
 )
 public class TestNGTestRunner extends AbstractTestNGCucumberTests {
 
+	private String FILTER_TAGS_KEY="cucumber.filter.tags";
+	private String DEAFAULT_BROWSER="chrome";
+
     @BeforeClass(alwaysRun = true)
     @Parameters({"browser", "cucumber.filter.tags"})
     public void setup(@Optional String xmlBrowser, @Optional String xmlTags) {
@@ -76,13 +79,13 @@ public class TestNGTestRunner extends AbstractTestNGCucumberTests {
         String browser = System.getProperty("browser");
         if (browser == null || browser.isEmpty()) browser = xmlBrowser;
         if (browser == null || browser.isEmpty()) browser = ConfigReader.get("browser"); // fallback
-        if (browser == null || browser.isEmpty()) browser = "chrome"; // final fallback
+        if (browser == null || browser.isEmpty()) browser = DEAFAULT_BROWSER; // final fallback
         System.setProperty("browser", browser);
 
         // ----------------------------
         // Step 2: Resolve Tags
         // ----------------------------
-        String tags = System.getProperty("cucumber.filter.tags");
+        String tags = System.getProperty(FILTER_TAGS_KEY);
         if (tags == null || tags.isEmpty()) tags = xmlTags;
         if (tags == null || tags.isEmpty()) {
             System.out.println("⚠️ No tags provided, executing all feature files.");

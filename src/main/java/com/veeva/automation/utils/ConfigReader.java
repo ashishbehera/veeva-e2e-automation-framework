@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import com.veeva.automation.constants.FrameworkConstants;
+
 /**
  * ConfigReader
  * ---------------------
@@ -15,11 +17,11 @@ public class ConfigReader {
 
     private static Properties properties;
 
-    private static final String CONFIG_FILE_PATH = "src/main/resources/config/config.properties";
+    private static final String CONFIG_FILE_PATH = FrameworkConstants.getConfigFilePath();
 
     // Static block executes once when class is loaded
     static {
-        try (FileInputStream fis = new FileInputStream(CONFIG_FILE_PATH)) {
+        try (FileInputStream fis = new FileInputStream(FrameworkConstants.getConfigFilePath())) {
             properties = new Properties();
             properties.load(fis);
             System.out.println("✅ Config loaded successfully from " + CONFIG_FILE_PATH);

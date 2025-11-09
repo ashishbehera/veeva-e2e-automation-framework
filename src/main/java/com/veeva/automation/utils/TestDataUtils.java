@@ -16,16 +16,19 @@ public class TestDataUtils {
 	
     private static final String SELECTORS_JSON = "src/test/resources/testdata/selectors.json";
     private static JsonObject selectors;
+    // JSON keys as constants
+    private static final String SLIDES_KEY = "slides";
+    private static final String EXPECTED_TITLE_KEY = "expectedTitle";
 
     public static List<String> getExpectedSlideTitles(String filePath) {
         List<String> titles = new ArrayList<>();
         try {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(new File(filePath));
-            JsonNode slides = root.path("slides");
+            JsonNode slides = root.path(SLIDES_KEY);
 
             for (JsonNode node : slides) {
-                titles.add(node.path("expectedTitle").asText());
+                titles.add(node.path(EXPECTED_TITLE_KEY).asText());
             }
         } catch (Exception e) {
             e.printStackTrace();
