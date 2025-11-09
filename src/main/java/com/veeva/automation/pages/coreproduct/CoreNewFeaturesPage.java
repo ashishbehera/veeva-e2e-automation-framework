@@ -2,7 +2,6 @@ package com.veeva.automation.pages.coreproduct;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.veeva.automation.base.BasePage;
@@ -19,6 +18,7 @@ public class CoreNewFeaturesPage extends BasePage {
     
     // 🔹 Logger
     private static final Logger log = LogUtils.getLogger(CoreNewFeaturesPage.class);
+    private int count=3;
 
     public CoreNewFeaturesPage(WebDriver driver) {
     	super(driver);
@@ -33,6 +33,7 @@ public class CoreNewFeaturesPage extends BasePage {
     @FindBy(css  = "time>span")
     private List<WebElement> videoAges;
     
+    
 
     
 
@@ -46,7 +47,7 @@ public class CoreNewFeaturesPage extends BasePage {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 
-        while (stableCountRepeats < 3) {
+        while (stableCountRepeats < count) {
             log.debug("Scrolling to bottom to load more videos...");
             js.executeScript("window.scrollBy(0, document.body.scrollHeight);");
 
@@ -90,7 +91,7 @@ public class CoreNewFeaturesPage extends BasePage {
     public long countVideosOlderThan3Days() {
     	return countByChildTextCondition(
     			videoAges,
-    		    text -> text.contains("d") && Integer.parseInt(text.replace("d", "")) >= 3
+    		    text -> text.contains("d") && Integer.parseInt(text.replace("d", "")) >= count
     		);
 		
     }

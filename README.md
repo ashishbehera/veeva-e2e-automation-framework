@@ -79,5 +79,164 @@ This **Veeva E2E Automation Framework** enables automated end-to-end UI and func
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/<your-username>/veeva-e2e-automation-framework.git
+git clone https://github.com/ashishbehera/veeva-e2e-automation-framework.git
 cd veeva-e2e-automation-framework
+```
+
+### 2️⃣ Install Dependencies
+```bash
+mvn clean install -DskipTests
+```
+
+### 3️⃣ Configure Environment
+Update the following in `config.properties`:
+```properties
+browser=chrome
+headless=false
+baseUrl=https://www.nba.com/warriors
+```
+
+---
+
+## Running Tests
+
+### 🧪 From Command Line
+```bash
+# Run smoke tests
+mvn clean test -Dcucumber.filter.tags="@smoke"
+
+# Run regression suite
+mvn clean test -Dcucumber.filter.tags="@regression"
+
+# Run multiple tags
+mvn clean test -Dcucumber.filter.tags="@smoke or @dp1"
+
+# Run specific module and override browser
+mvn clean test -Dcucumber.filter.tags="@core" -Dbrowser=firefox
+```
+
+### 🧩 From TestNG XML
+You can run multiple modules or browsers in parallel using `testng.xml`.
+
+```xml
+<suite name="Veeva Automation Suite" parallel="tests">
+  <test name="Smoke Suite - Chrome">
+    <parameter name="browser" value="chrome"/>
+    <classes>
+      <class name="com.veeva.automation.runner.CoreRunner"/>
+    </classes>
+  </test>
+</suite>
+```
+```xml
+<suite name="Veeva Automation Suite" parallel="tests" thread-count="2">
+  <test name="Smoke Suite - Chrome">
+    <parameter name="browser" value="chrome"/>
+    <classes>
+      <class name="com.veeva.automation.runner.CoreRunner"/>
+    </classes>
+  </test>
+
+  <test name="Regression Suite - Firefox">
+    <parameter name="browser" value="firefox"/>
+    <classes>
+      <class name="com.veeva.automation.runner.DP1Runner"/>
+    </classes>
+  </test>
+</suite>
+```
+
+---
+
+## Configuration
+
+- **Global config:** `src/main/resources/config/config.properties`
+- **Browser setup:** Controlled by `DriverManager` and `WebDriverFactory`
+- **Headless mode:** Toggle via `headless=true/false`
+
+---
+
+## Selectors & Test Data
+
+Selectors and expected data are stored in **JSON files** under:
+```
+src/test/resources/testdata/
+```
+Example:
+```json
+{
+  "slideTitle": "#slide-header",
+  "duration": ".slide-duration"
+}
+```
+
+---
+
+## Utilities & Helpers
+
+| Utility | Description |
+|----------|-------------|
+| `TestDataUtils.java` | Reads and parses JSON test data |
+| `WaitUtils.java` | Manages dynamic waits and conditions |
+| `JSExecutorUtils.java` | Executes custom JavaScript actions |
+| `FileUtils.java` | File operations for reports, logs, etc. |
+
+---
+
+## Reporting
+
+- Integrated **Extent Reports (v5+)**
+- Automatic report generation under `test-output/ExtentReports`
+- **Log4j2** for detailed logging
+- Supports integration with **Allure Reports** (optional)
+
+---
+
+## Execution Flow
+
+```mermaid
+flowchart TD
+    A[TestNG XML] --> B[Dynamic Runner Generation]
+    B --> C[Cucumber Feature Execution]
+    C --> D[Hooks: Setup & Teardown]
+    D --> E[Extent Reporting]
+    E --> F[Report Generation]
+```
+
+---
+
+## Best Practices
+
+✅ Keep locators and test data externalized in JSON.  
+✅ Use `BasePage` methods for all WebDriver actions.  
+✅ Maintain `config.properties` per environment.  
+✅ Integrate with CI/CD (Jenkins, GitHub Actions).  
+✅ Use tags (`@smoke`, `@regression`, `@dp1`) for modular runs.
+
+---
+
+## Troubleshooting
+
+| Issue | Possible Cause | Resolution |
+|--------|----------------|------------|
+| `SessionNotCreatedException` | Mismatch between browser and driver versions | Update ChromeDriver/GeckoDriver |
+| `ConfigReader` returning null | Missing config.properties key | Ensure property key exists |
+| JSON Parsing errors | Malformed test data JSON | Validate JSON syntax |
+
+---
+
+## 🧱 License
+This framework is released under the [MIT License](LICENSE).
+
+---
+
+## 🤝 Contributing
+Contributions are welcome!  
+1. Fork this repository  
+2. Create a feature branch  
+3. Commit your changes  
+4. Submit a Pull Request 🚀
+
+---
+
+© 2025 Veeva Systems - E2E Automation Framework

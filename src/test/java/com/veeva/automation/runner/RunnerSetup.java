@@ -5,6 +5,10 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
 public class RunnerSetup {
+	
+	private String TAGS_SMOKE="@Smoke";
+	private String CUCUMBER_TAGS_KEY="cucumber.tags";
+	private String FILTER_TAGS_KEY="cucumber.filter.tags";
 
 	@BeforeSuite
 	@Parameters({"browser"})
@@ -26,9 +30,9 @@ public class RunnerSetup {
 	    }
 
 	    // 3️⃣ Get tags (CLI > XML > default)
-	    String tags = System.getProperty("cucumber.filter.tags");
-	    if (tags == null || tags.isEmpty()) tags = System.getProperty("cucumber.tags");
-	    if (tags == null || tags.isEmpty()) tags = "@Smoke";
+	    String tags = System.getProperty(FILTER_TAGS_KEY);
+	    if (tags == null || tags.isEmpty()) tags = System.getProperty(CUCUMBER_TAGS_KEY);
+	    if (tags == null || tags.isEmpty()) tags = TAGS_SMOKE;
 
 	    // 4️⃣ Generate runners for each browser
 	    for (String browser : browsers) {

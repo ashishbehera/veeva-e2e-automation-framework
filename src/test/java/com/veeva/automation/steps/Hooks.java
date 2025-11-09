@@ -16,6 +16,9 @@ import org.testng.Reporter;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import com.veeva.automation.constants.HooksConstants;
+import com.veeva.automation.constants.FrameworkConstants;
+
 
 public class Hooks {
 
@@ -28,7 +31,8 @@ public class Hooks {
     @Before(order = 0)
     public void setupLogging() throws Exception {
         String timestamp = new java.text.SimpleDateFormat("yyyyMMdd_HHmmss").format(new java.util.Date());
-        String logPath = "logs/veeva-automation-" + timestamp + ".log";
+        String logPath = FrameworkConstants.LOGS_FOLDER + "/" + String.format(HooksConstants.LOG_FILE_PATTERN, timestamp);
+
         java.nio.file.Path dir = Paths.get(logPath).getParent();
         if (!Files.exists(dir)) Files.createDirectories(dir);
         System.setProperty("log.file.path", logPath);
@@ -37,39 +41,40 @@ public class Hooks {
 
     @Before(order = 1)
     public void beforeScenario(Scenario scenario) {
-
-        // --------------------------
-        // Browser setup
-        // --------------------------
         String browser = Reporter.getCurrentTestResult()
                 .getTestContext()
                 .getCurrentXmlTest()
                 .getParameter("browser");
 
         if (browser == null || browser.isEmpty()) browser = System.getProperty("browser");
-        if (browser == null || browser.isEmpty()) browser = "chrome";
+        if (browser == null || browser.isEmpty()) browser = FrameworkConstants.DEFAULT_BROWSER;
 
         System.out.println("🚀 Launching browser: " + browser);
-        DriverManager.initDriver(browser);  // Thread-local safe
+        DriverManager.initDriver(browser);
         driver = DriverManager.getDriver();
         pageFactoryManager = new PageFactoryManager(driver);
 
-        // --------------------------
-        // Cucumber JSON path (optional)
-        // --------------------------
-        String jsonPath = "target/cucumber-reports/cucumber-" + browser + ".json";
+        String jsonPath = FrameworkConstants.CUCUMBER_JSON_FOLDER + "/" +
+                          String.format(HooksConstants.CUCUMBER_JSON_PATTERN, browser);
         System.setProperty("cucumber.plugin.json", jsonPath);
-
         System.out.println("🧭 Cucumber JSON report path: " + jsonPath);
 
-        // --------------------------
-        // Start ExtentTest
-        // --------------------------
         ExtentTestManager.startTest(scenario.getName());
         ExtentTestManager.getTest().info("Scenario started on browser: " + browser);
     }
 
-    // -----------------------------
+    @After(order = 0)
+    public void attachJacketFile(Scenario scenario) throws Exception {
+        if (scenario.getName().equalsIgnoreCase(HooksConstants.JACKET_SCENARIO_NAME)) {
+            if (Files.exists(Paths.get(HooksConstants.JACKET_FILE))) {
+                byte[] fileContent = Files.readAllBytes(Paths.get(HooksConstants.JACKET_FILE));
+                scenario.attach(fileContent, "text/plain", "JacketData.txt");
+            } else {
+                scenario.log("JacketData.txt not found – nothing to attach.");
+            }
+        }
+    }
+ // -----------------------------
     // After each scenario
     // -----------------------------
     @After(order = 1)
@@ -98,22 +103,6 @@ public class Hooks {
 
         // Flush report
         ExtentTestManager.endTest();
-    }
-
-    // -----------------------------
-    // Attach file example
-    // -----------------------------
-    @After(order = 0)
-    public void attachJacketFile(Scenario scenario) throws Exception {
-        if (scenario.getName().equalsIgnoreCase("Validate Jacket Prices and Titles")) {
-            String filePath = "target/JacketData.txt";
-            if (Files.exists(Paths.get(filePath))) {
-                byte[] fileContent = Files.readAllBytes(Paths.get(filePath));
-                scenario.attach(fileContent, "text/plain", "JacketData.txt");
-            } else {
-                scenario.log("JacketData.txt not found – nothing to attach.");
-            }
-        }
     }
 
     // Getter for PageFactory
