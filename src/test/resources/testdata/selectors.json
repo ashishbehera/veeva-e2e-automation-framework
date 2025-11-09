@@ -1,0 +1,14 @@
+{
+	"JacketsPage": {
+		"productCard": ".product-card",
+		"title": ".product-card-title",
+		"price": ".price-card",
+		"badge": ".product-badges-container"
+	},
+	"DP1SlidesPage": {
+		"slideCard": "div[class*='CourtsideBox_courtsideBoxItemMain']",
+		"teamSelector": "span[class*='Game_gameTeam'], div[class*='Game_featuredGameTeam'] p[class*='text-sm']",
+		"statusSelector": "span[data-testid$='status-indicator']",
+		"ticketMenu": "li[data-testid$='nav-item-/sixers/tickets']"
+	}
+}

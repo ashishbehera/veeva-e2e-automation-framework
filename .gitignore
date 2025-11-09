@@ -1,0 +1,103 @@
+######################################
+# 🧩 Veeva Automation Framework
+# Java | Selenium | TestNG | RestAssured | Extent | Optional JS
+######################################
+
+# === IDE / EDITOR FILES ===
+.idea/
+.vscode/
+*.iml
+.classpath
+.project
+.settings/
+*.swp
+*.swo
+
+# === BUILD & DEPENDENCIES ===
+target/
+build/
+out/
+bin/
+node_modules/
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# === TEST REPORTS & LOGS ===
+test-output/
+reports/
+allure-results/
+allure-report/
+extent-reports/
+logs/
+*.log
+/tmp/
+
+# === SCREENSHOTS / RECORDINGS ===
+screenshots/
+recordings/
+failed_screenshots/
+videos/
+downloads/
+
+# === LOCAL CONFIGURATION & SECRETS ===
+src/test/resources/config/localConfig.json
+src/test/resources/testdata/localTestData.json
+src/test/resources/testdata/private/
+src/test/resources/keys/
+src/test/resources/secrets/
+*.env
+.env.*
+*.local
+*.credentials.json
+
+# === WEBDRIVERS ===
+drivers/
+chromedriver*
+geckodriver*
+msedgedriver*
+operadriver*
+selenium-server-standalone*.jar
+
+# === OS / SYSTEM FILES ===
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+Icon?
+$RECYCLE.BIN/
+
+# === OPTIONAL JS FRAMEWORKS (Playwright / Cypress) ===
+playwright-report/
+playwright/.cache/
+cypress/videos/
+cypress/screenshots/
+cypress/downloads/
+
+# === MAVEN WRAPPER (Optional) ===
+.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+mvnw
+mvnw.cmd
+
+# === TEMPORARY / BACKUP FILES ===
+*.tmp
+*.bak
+*.old
+*.orig
+*.cache
+*.log.*
+structure.txt
+
+######################################
+# ✅ SAFE TO COMMIT (Templates & Test Data)
+######################################
+!src/test/resources/config/config.example.properties
+!src/test/resources/testdata/selectors.json
+!src/test/resources/js/
+!src/test/resources/features/
+!src/test/resources/testdata/*.json
+
+######################################
+# END OF FILE
+######################################

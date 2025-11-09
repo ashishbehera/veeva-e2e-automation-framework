@@ -1,0 +1,16 @@
+{
+  "slides": [
+    { "expectedTitle": "76ERS VS WIZARDS - FINAL" },
+    { "expectedTitle": "CELTICS VS 76ERS - FINAL" },
+    { "expectedTitle": "76ERS VS NETS - FINAL" },
+    { "expectedTitle": "76ERS VS BULLS - FINAL" },
+    { "expectedTitle": "76ERS VS CAVALIERS - FINAL" },
+    { "expectedTitle": "RAPTORS VS 76ERS - HOME" },
+    { "expectedTitle": "PISTONS VS 76ERS - HOME" },
+    { "expectedTitle": "CELTICS VS 76ERS - HOME" },
+    { "expectedTitle": "76ERS VS PISTONS - AWAY" },
+    { "expectedTitle": "CLIPPERS VS 76ERS - HOME" },
+    { "expectedTitle": "RAPTORS VS 76ERS - HOME" },
+    { "expectedTitle": "76ERS VS BUCKS - AWAY" }
+  ]
+}
