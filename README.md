@@ -111,10 +111,10 @@ baseUrl=https://www.nba.com/warriors
 
 ### 🧪 From Command Line
 ```bash
-# Run smoke tests
+# Run  tests based on tag Smoke
 mvn clean test -Dcucumber.filter.tags="@Smoke"
 
-# Run regression suite
+# Run  other tags like regression suite
 mvn clean test -Dcucumber.filter.tags="@Regression"
 
 # Run multiple tags
@@ -122,6 +122,11 @@ mvn clean test -Dcucumber.filter.tags="@Smoke or @Regression"
 
 # Run specific module and override browser
 mvn clean test -Dcucumber.filter.tags="@Smoke" -Dbrowser=firefox
+
+# Run specific module on headless mode
+mvn clean test -Dcucumber.filter.tags="@Smoke" -Dbrowser=firefox -Dbrowser.headless=true
+mvn clean test -Dbrowser.headless=true
+
 ```
 
 ### 🧩 From TestNG XML
