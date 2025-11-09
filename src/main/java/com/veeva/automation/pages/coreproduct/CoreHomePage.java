@@ -1,15 +1,19 @@
 package com.veeva.automation.pages.coreproduct;
 
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 import com.veeva.automation.base.BasePage;
+import com.veeva.automation.utils.LogUtils;
+
 import org.openqa.selenium.WebElement;
 
 public class CoreHomePage extends BasePage {
 
    
-
+    // 🔹 Logger
+    private static final Logger log = LogUtils.getLogger(CoreHomePage.class);
 
     // Constructor
     public CoreHomePage(WebDriver driver) {
@@ -38,7 +42,7 @@ public class CoreHomePage extends BasePage {
     
     public void navigateToMens() {
     	clickShopAndSwitchToNewWindow(shopLink);
-        System.out.println("🛒 Navigated to Shop.");
+    	 log.info("🛒 Navigated to Shop.");
     }
 
     public void clickShopMenu() {

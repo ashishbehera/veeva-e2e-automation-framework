@@ -68,6 +68,7 @@ public class TestNGTestRunner extends AbstractTestNGCucumberTests {
 
 	private String FILTER_TAGS_KEY="cucumber.filter.tags";
 	private String DEAFAULT_BROWSER="chrome";
+	public  String CUCUMBER_REPORTS_FOLDER = "target/cucumber-reports/";
 
     @BeforeClass(alwaysRun = true)
     @Parameters({"browser", "cucumber.filter.tags"})
@@ -104,7 +105,7 @@ public class TestNGTestRunner extends AbstractTestNGCucumberTests {
 
         // ✅ No WebDriver init here — Hooks handle browser startup per scenario
         
-        String reportPath = "target/cucumber-reports/" + browser;
+        String reportPath = CUCUMBER_REPORTS_FOLDER + browser;
         System.setProperty("cucumber.reporting.output.folder", reportPath);
     }
 

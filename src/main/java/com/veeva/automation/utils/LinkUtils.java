@@ -2,8 +2,12 @@ package com.veeva.automation.utils;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
+
+import com.veeva.automation.pages.derivedproduct1.DP1SlidesPage;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,6 +21,7 @@ public class LinkUtils {
 
 	private static int STATUS_CODE=200;
     // Extract text & href from a list of WebElements
+	   private static final Logger log = LogUtils.getLogger(LinkUtils.class);
     public static List<Map<String, String>> extractLinks(List<WebElement> links) {
         List<Map<String, String>> linkData = new ArrayList<>();
         for (WebElement link : links) {
@@ -41,7 +46,7 @@ public class LinkUtils {
             for (Map<String, String> entry : linkData) {
                 writer.write(String.format("\"%s\",\"%s\"\n", entry.get("text"), entry.get("href")));
             }
-            System.out.println("📁 Link data saved to: " + filePath);
+            log.info("📁 Link data saved to: " + filePath);
         } catch (IOException e) {
             throw new RuntimeException("❌ Failed to write CSV file: " + e.getMessage());
         }

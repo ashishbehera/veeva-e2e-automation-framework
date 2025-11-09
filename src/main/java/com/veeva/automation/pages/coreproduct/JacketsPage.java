@@ -1,5 +1,6 @@
 package com.veeva.automation.pages.coreproduct;
 
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -7,6 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.veeva.automation.base.BasePage;
 import com.veeva.automation.utils.FileUtils;
+import com.veeva.automation.utils.LogUtils;
 import com.veeva.automation.utils.TestDataUtils;
 
 import java.io.IOException;
@@ -24,7 +26,8 @@ public class JacketsPage extends BasePage{
     // selectors map
     @FindBy(css = "div[class='pagination-component'] a[aria-label='next page']")
     private WebElement nextPage;
-    
+
+ 
 	// Define locators centrally or load from config
 	private String productCard = ".product-card";
 	private String title = ".product-card-title";
@@ -32,6 +35,8 @@ public class JacketsPage extends BasePage{
 	private String badge = ".product-badges-container";
 	private String pageAttribute = "aria-disabled";
 	private String pageAttributeValue = "aria-disabled";
+    private static final String EXTRACT_PRODUCTS_JS = "src/test/resources/js/extractProducts.js";
+
 
 
     public JacketsPage(WebDriver driver) {
@@ -50,7 +55,7 @@ public class JacketsPage extends BasePage{
     public List<Map<String, String>> getAllJackets() {
  
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(productCard)));
-        String jsCode = FileUtils.readJsFile("src/test/resources/js/extractProducts.js");        
+        String jsCode = FileUtils.readJsFile(EXTRACT_PRODUCTS_JS);        
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
         @SuppressWarnings("unchecked")

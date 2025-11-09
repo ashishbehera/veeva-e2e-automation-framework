@@ -1,8 +1,12 @@
 package com.veeva.automation.pages.derivedproduct1;
 
 import com.veeva.automation.base.BasePage;
+import com.veeva.automation.pages.coreproduct.CoreHomePage;
+import com.veeva.automation.utils.LogUtils;
+
 import static com.veeva.automation.constants.FrameworkConstants.*;
 
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -28,7 +32,8 @@ public class DP1SlidesPage extends BasePage {
     private int count=3;
     private String regex = "\\s*\\(\\d+\\s*-\\s*\\d+\\)\\s*";
     private String splitWord = "\\s+";
-    
+	   // 🔹 Logger
+   private static final Logger log = LogUtils.getLogger(DP1SlidesPage.class);
 
     public DP1SlidesPage(WebDriver driver) {
         super(driver);
@@ -46,9 +51,8 @@ public class DP1SlidesPage extends BasePage {
 
     public List<String> getAllSlideDetails() {
         List<String> slideSummaries = new ArrayList<>();
-        System.out.println("🎞 Total Slides Found: " + slides.size());
-        System.out.println("-------------------------------------------------");
-
+        log.info("🎞 Total Slides Found: " + slides.size());
+        
         for (WebElement slide : slides) {
             try {
                 List<WebElement> teamDetails = getElements(slide, teamSelector);
@@ -57,10 +61,8 @@ public class DP1SlidesPage extends BasePage {
 
                 for (WebElement detail : teamDetails) {
                 	String text = null;
-                	System.out.println("Team Details Size:"+teamDetails.size());
                 	if(teamDetails.size() <= count) text = detail.getAttribute("innerText").trim();
                 	if(teamDetails.size() > count) text = detail.getText().trim();
-                	System.out.println("Text is:"+text );
                     if (!text.isEmpty() && rawInfo.indexOf(text) == -1) {
                         rawInfo.append(text).append(" ");
                     }
@@ -69,7 +71,6 @@ public class DP1SlidesPage extends BasePage {
                 for (WebElement status : statusDetails) {
                     String text = status.getAttribute("innerText").trim();
                     if (!text.isEmpty()) {
-                    	System.out.println("Text is:"+text);
                         rawInfo.append(text).append(" ");
                     }
                 }
@@ -80,7 +81,7 @@ public class DP1SlidesPage extends BasePage {
                 }
 
             } catch (Exception e) {
-                System.out.println("⚠️ Error extracting slide details: " + e.getMessage());
+                log.error("⚠️ Error extracting slide details: " + e.getMessage());
             }
         }
 

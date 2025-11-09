@@ -5,6 +5,8 @@ import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.veeva.automation.constants.FrameworkConstants;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ExtentManager {
 
@@ -15,7 +17,10 @@ public class ExtentManager {
     public static ExtentReports getInstance() {
         if (extent == null) {
             // Build report path dynamically
-            String reportPath = FrameworkConstants.REPORTS_FOLDER + File.separator + FrameworkConstants.EXTENT_REPORT_FILE;
+        	String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        	String reportPath = FrameworkConstants.REPORTS_FOLDER 
+        	                    + File.separator 
+        	                    + "ExtentReport_" + timestamp + ".html";
             
             ExtentSparkReporter spark = new ExtentSparkReporter(reportPath);
             spark.config().setDocumentTitle(FrameworkConstants.EXTENT_REPORT_TITLE);

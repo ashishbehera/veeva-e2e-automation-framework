@@ -19,6 +19,7 @@ public class DP2FooterSteps {
 	private DP2FooterPage footerPage;
 	private List<Map<String, String>> footerLinks;
 	private PageFactoryManager factory;
+	 private static final String FOOTER_LINKS_CSV = "target/FooterLinks.csv";
 
 	List<Map<String, String>> allProducts = new ArrayList<>();
 	private static final String PAGE_URL = ConfigReaderJSON.get("environment.urls.dp2");
@@ -42,7 +43,7 @@ public class DP2FooterSteps {
 	@When("user extracts all footer links into a CSV file")
 	public void user_extracts_all_footer_links_into_csv() {
 		footerLinks = footerPage.getFooterLinks();
-		footerPage.saveFooterLinksCSV("target/FooterLinks.csv");
+		footerPage.saveFooterLinksCSV(FOOTER_LINKS_CSV);
 	}
 
 	@Then("user should verify that no duplicate hyperlinks are present")
