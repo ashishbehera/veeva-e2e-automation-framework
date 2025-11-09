@@ -1,0 +1,22 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Veeva Automation Suite" parallel="tests" thread-count="2">
+    <test name="Chrome Tests">
+        <parameter name="browser" value="chrome"/>
+        <parameter name="cucumber.filter.tags" value="@Smoke"/> <!-- Add tags here -->
+        <classes>
+            <class name="com.veeva.automation.runner.RunnerSetup"/>
+            <class name="com.veeva.automation.runner.TestNGTestRunner"/>
+        </classes>
+    </test>
+
+ <!--    <test name="Firefox Tests">
+        <parameter name="browser" value="firefox"/>
+        <parameter name="cucumber.filter.tags" value="@Smoke"/> Same or different tags
+        <classes>
+            <class name="com.veeva.automation.runner.RunnerSetup"/>
+            <class name="com.veeva.automation.runner.TestNGTestRunner"/>
+        </classes>
+    </test> -->
+
+</suite>
+
