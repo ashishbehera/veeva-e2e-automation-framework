@@ -40,7 +40,7 @@ This **Veeva E2E Automation Framework** enables automated end-to-end UI and func
                              
     ### **The overall architecture of the Veeva Automation Framework**
 
-![Framework Architecture](docs/architecture/fw_architecture.png)
+![Framework Architecture](docs/architecture/fw_architecture_diagram.png)
 
 
 ### 🔑 Key Highlights
