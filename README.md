@@ -225,7 +225,7 @@ flowchart TD
 
 | Issue | Possible Cause | Resolution |
 |--------|----------------|------------|
-| `SessionNotCreatedException` | Mismatch between browser and driver versions | Update ChromeDriver/GeckoDriver |
+| `SessionNotCreatedException` | Mismatch between browser and driver versions | Chcek WebDriverManager or manually update to the latest driver that matches your browser version. |
 | `ConfigReader` returning null | Missing config.json key | Ensure  key exists |
 | JSON Parsing errors | Malformed test data JSON | Validate JSON syntax |
 
