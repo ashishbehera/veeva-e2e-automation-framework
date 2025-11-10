@@ -42,9 +42,6 @@ This **Veeva E2E Automation Framework** enables automated end-to-end UI and func
 
 ![Framework Architecture](docs/architecture/fw_architecture.png)
 
-  ### **Sequence Diagram**
-
-![Sequence Diagram](docs/architecture/fw_sequence.png)
 
 ### 🔑 Key Highlights
 - Modular **Page Object Model (POM)**
