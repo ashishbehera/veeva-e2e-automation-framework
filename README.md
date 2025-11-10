@@ -184,8 +184,7 @@ Example:
 | Utility | Description |
 |----------|-------------|
 | `TestDataUtils.java` | Reads and parses JSON test data |
-| `WaitUtils.java` | Manages dynamic waits and conditions |
-| `JSExecutorUtils.java` | Executes custom JavaScript actions |
+| `LinkUtils.java` | Manages links for the web pages |
 | `FileUtils.java` | File operations for reports, logs, etc. |
 
 ---
@@ -217,7 +216,7 @@ flowchart TD
 ✅ Keep locators and test data externalized in JSON.  
 ✅ Use `BasePage` methods for all WebDriver actions.  
 ✅ Maintain `config.properties` per environment.  
-✅ Integrate with CI/CD (Jenkins, GitHub Actions).  
+✅ Integrate with CI/CD (Maven).  
 ✅ Use tags (`@smoke`, `@regression`, `@dp1`) for modular runs.
 
 ---
