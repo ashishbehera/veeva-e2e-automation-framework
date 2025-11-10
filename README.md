@@ -57,11 +57,11 @@ This **Veeva E2E Automation Framework** enables automated end-to-end UI and func
 
 | Path | Description |
 |------|--------------|
-| `src/main/java/com/veeva/automation/base` | Base setup (`BasePage`, `BaseTest`, `DriverManager`, `WebDriverFactory`) |
+| `src/main/java/com/veeva/automation/base` | Base setup (`BasePage`, , `DriverManager`) |
 | `src/main/java/com/veeva/automation/pages` | Page Object classes for core, DP1, and DP2 modules |
 | `src/main/java/com/veeva/automation/factory` | Page factory and support classes |
 | `src/main/java/com/veeva/automation/utils` | Utility classes like `TestDataUtils`, `FileUtils`, etc. |
-| `src/main/resources/config/config.properties` | Global configuration file |
+| `src/main/resources/config/config.json` | Global configuration file |
 | `src/main/resources/templates/FeatureRunnerTemplate.java` | Template for dynamic Cucumber runners |
 | `src/test/java/com/veeva/automation/steps` | Cucumber step definitions and hooks |
 | `src/test/java/com/veeva/automation/runner` | Dynamic & static Cucumber TestNG runners |
@@ -95,7 +95,7 @@ mvn clean install -DskipTests
 ```
 
 ### 3️⃣ Configure Environment
-Update the following in `config.properties`:
+Update the following in `config.json`:
 ```properties
 browser=chrome
 headless=false
@@ -157,7 +157,7 @@ You can run multiple modules or browsers in parallel using `testng.xml` using "m
 
 ## Configuration
 
-- **Global config:** `src/main/resources/config/config.properties`
+- **Global config:** `src/main/resources/config/config.json`
 - **Browser setup:** Controlled by `DriverManager` and `WebDriverFactory`
 - **Headless mode:** Toggle via `headless=true/false`
 
@@ -227,7 +227,7 @@ flowchart TD
 | Issue | Possible Cause | Resolution |
 |--------|----------------|------------|
 | `SessionNotCreatedException` | Mismatch between browser and driver versions | Update ChromeDriver/GeckoDriver |
-| `ConfigReader` returning null | Missing config.properties key | Ensure property key exists |
+| `ConfigReader` returning null | Missing config.json key | Ensure  key exists |
 | JSON Parsing errors | Malformed test data JSON | Validate JSON syntax |
 
 ---
