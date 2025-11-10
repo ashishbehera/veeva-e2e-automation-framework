@@ -47,7 +47,7 @@ This **Veeva E2E Automation Framework** enables automated end-to-end UI and func
 - Modular **Page Object Model (POM)**
 - Dynamic **Cucumber runner generation**
 - **JSON-driven** selectors and expected data
-- **Reusable BasePage & BaseTest** setup
+- **Reusable BasePage & Hooks** setup
 - Unified **TestNG + Cucumber execution**
 - **Log4j2** logging and detailed reporting
 
