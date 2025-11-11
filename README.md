@@ -13,7 +13,7 @@
 
 ## Table of Contents
 1. [Overview](#overview)
-2. [Framework Structure](#framework-structure)
+2. [Framework Structure & Components Summary](#framework-structure--components-summary)
 3. [Prerequisites](#prerequisites)
 4. [Setup](#setup)
 5. [Running Tests](#running-tests)
@@ -50,28 +50,28 @@ This **Veeva E2E Automation Framework** enables automated end-to-end UI and func
 - Modular **Page Object Model (POM)**
 - Dynamic **Cucumber runner generation**
 - **JSON-driven** selectors and expected data
-- **Reusable BasePage & BaseTest** setup
+- **Reusable BasePage & Hooks** setup
 - Unified **TestNG + Cucumber execution**
 - **Log4j2** logging and detailed reporting
 
 ---
 
-## Framework Structure
+## Framework Structure & Components Summary
 
-| Path | Description |
-|------|--------------|
-| `src/main/java/com/veeva/automation/base` | Base setup (`BasePage`, `BaseTest`, `DriverManager`, `WebDriverFactory`) |
-| `src/main/java/com/veeva/automation/pages` | Page Object classes for core, DP1, and DP2 modules |
-| `src/main/java/com/veeva/automation/factory` | Page factory and support classes |
-| `src/main/java/com/veeva/automation/utils` | Utility classes like `TestDataUtils`, `FileUtils`, etc. |
-| `src/main/resources/config/config.properties` | Global configuration file |
-| `src/main/resources/templates/FeatureRunnerTemplate.java` | Template for dynamic Cucumber runners |
-| `src/test/java/com/veeva/automation/steps` | Cucumber step definitions and hooks |
-| `src/test/java/com/veeva/automation/runner` | Dynamic & static Cucumber TestNG runners |
-| `src/test/java/com/veeva/automation/report` | Extent Report setup and management |
-| `src/test/resources/features` | Cucumber feature files grouped by module |
-| `src/test/resources/testdata` | JSON test data such as selectors and expected slide info |
-| `src/test/resources/js` | Supporting JavaScript utilities for DOM extraction |
+| Component        | Path                                         | Description                                                                                            |
+| ---------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| Base Setup       | `src/main/java/com/veeva/automation/base`    | Classes like `BasePage` and `DriverManager`. Handles browser setup, teardown, and page initialization. |
+| Page Objects     | `src/main/java/com/veeva/automation/pages`   | Encapsulates UI pages for all modules; contains locators and page actions.                             |
+| Page Factory     | `src/main/java/com/veeva/automation/factory` | `PageFactoryManager` & support classes; initializes page objects using Selenium PageFactory.           |
+| Utilities        | `src/main/java/com/veeva/automation/utils`   | Reusable helper methods (e.g., waits, file handling, data extraction).                                 |
+| Configuration    | `src/main/resources/config/config.json`      | Global settings for environment, browser, and framework.                                               |
+| Step Definitions | `src/test/java/com/veeva/automation/steps`   | Implements Cucumber steps and scenario setup/teardown hooks.                                           |
+| Test Runners     | `src/test/java/com/veeva/automation/runner`  | Dynamic & static Cucumber TestNG runners to execute features.                                          |
+| Reporting        | `src/test/java/com/veeva/automation/report`  | Extent Report setup and management.                                                                    |
+| Features         | `src/test/resources/features`                | Cucumber feature files organized by module.                                                            |
+| Test Data        | `src/test/resources/testdata`                | JSON files containing selectors, expected slide info, and other test inputs.                           |
+| JS Utilities     | `src/test/resources/js`                      | Browser-side JavaScript utilities for DOM extraction or other operations.                              |
+
 
 ---
 
@@ -98,7 +98,7 @@ mvn clean install -DskipTests
 ```
 
 ### 3️⃣ Configure Environment
-Update the following in `config.properties`:
+Update the following in `config.json`:
 ```properties
 browser=chrome
 headless=false
@@ -160,7 +160,7 @@ You can run multiple modules or browsers in parallel using `testng.xml` using "m
 
 ## Configuration
 
-- **Global config:** `src/main/resources/config/config.properties`
+- **Global config:** `src/main/resources/config/config.json`
 - **Browser setup:** Controlled by `DriverManager` and `WebDriverFactory`
 - **Headless mode:** Toggle via `headless=true/false`
 
@@ -187,8 +187,7 @@ Example:
 | Utility | Description |
 |----------|-------------|
 | `TestDataUtils.java` | Reads and parses JSON test data |
-| `WaitUtils.java` | Manages dynamic waits and conditions |
-| `JSExecutorUtils.java` | Executes custom JavaScript actions |
+| `LinkUtils.java` | Manages links for the web pages |
 | `FileUtils.java` | File operations for reports, logs, etc. |
 
 ---
@@ -220,7 +219,7 @@ flowchart TD
 ✅ Keep locators and test data externalized in JSON.  
 ✅ Use `BasePage` methods for all WebDriver actions.  
 ✅ Maintain `config.properties` per environment.  
-✅ Integrate with CI/CD (Jenkins, GitHub Actions).  
+✅ Integrate with CI/CD (Maven).  
 ✅ Use tags (`@smoke`, `@regression`, `@dp1`) for modular runs.
 
 ---
@@ -230,7 +229,7 @@ flowchart TD
 | Issue | Possible Cause | Resolution |
 |--------|----------------|------------|
 | `SessionNotCreatedException` | Mismatch between browser and driver versions | Update ChromeDriver/GeckoDriver |
-| `ConfigReader` returning null | Missing config.properties key | Ensure property key exists |
+| `ConfigReader` returning null | Missing config.json key | Ensure  key exists |
 | JSON Parsing errors | Malformed test data JSON | Validate JSON syntax |
 
 ---
