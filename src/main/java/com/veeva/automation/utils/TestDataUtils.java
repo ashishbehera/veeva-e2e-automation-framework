@@ -36,37 +36,5 @@ public class TestDataUtils {
         return titles;
     }
     
- // Lazy load selectors
-    private static void loadSelectors() {
-        if (selectors == null) {
-            try (FileReader reader = new FileReader(SELECTORS_JSON)) {
-                selectors = new Gson().fromJson(reader, JsonObject.class);
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to load selectors.json", e);
-            }
-        }
-    }
-
-    /**
-     * Get all selectors for a page as a Map<String, String>
-     */
-    public static Map<String, String> getSelectors(String pageName) {
-        loadSelectors(); // ensure JSON loaded
-        if (!selectors.has(pageName)) {
-            throw new RuntimeException("No selectors found for page: " + pageName);
-        }
-        return new Gson().fromJson(selectors.get(pageName), Map.class);
-    }
-
-    /**
-     * Get single selector string by pageName and key
-     */
-    public static String getSelector(String pageName, String key) {
-        Map<String, String> pageSelectors = getSelectors(pageName);
-        if (!pageSelectors.containsKey(key)) {
-            throw new RuntimeException("Selector '" + key + "' not found for page: " + pageName);
-        }
-        return pageSelectors.get(key);
-    }
 }
 

@@ -97,6 +97,7 @@ structure.txt
 !src/test/resources/js/
 !src/test/resources/features/
 !src/test/resources/testdata/*.json
+src/test/java/com/veeva/automation/runner/generated/*_Runner.java
 
 ######################################
 # END OF FILE
