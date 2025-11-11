@@ -13,7 +13,7 @@
 
 ## Table of Contents
 1. [Overview](#overview)
-2. [Framework Structure](#framework-structure)
+2. [Framework Structure & Components Summary](#framework-structure--components-summary)
 3. [Prerequisites](#prerequisites)
 4. [Setup](#setup)
 5. [Running Tests](#running-tests)
@@ -24,9 +24,6 @@
 10. [Execution Flow](#execution-flow)
 11. [Best Practices](#best-practices)
 12. [Troubleshooting](#troubleshooting)
-13. [FAQ](#faq)
-14. [License](#license)
-15. [Contributing](#contributing)
 
 ---
 
@@ -50,28 +47,28 @@ This **Veeva E2E Automation Framework** enables automated end-to-end UI and func
 - Modular **Page Object Model (POM)**
 - Dynamic **Cucumber runner generation**
 - **JSON-driven** selectors and expected data
-- **Reusable BasePage & BaseTest** setup
+- **Reusable BasePage & Hooks** setup
 - Unified **TestNG + Cucumber execution**
 - **Log4j2** logging and detailed reporting
 
 ---
 
-## Framework Structure
+## Framework Structure & Components Summary
 
-| Path | Description |
-|------|--------------|
-| `src/main/java/com/veeva/automation/base` | Base setup (`BasePage`, , `DriverManager`) |
-| `src/main/java/com/veeva/automation/pages` | Page Object classes for core, DP1, and DP2 modules |
-| `src/main/java/com/veeva/automation/factory` | Page factory and support classes |
-| `src/main/java/com/veeva/automation/utils` | Utility classes like `TestDataUtils`, `FileUtils`, etc. |
-| `src/main/resources/config/config.json` | Global configuration file |
-| `src/main/resources/templates/FeatureRunnerTemplate.java` | Template for dynamic Cucumber runners |
-| `src/test/java/com/veeva/automation/steps` | Cucumber step definitions and hooks |
-| `src/test/java/com/veeva/automation/runner` | Dynamic & static Cucumber TestNG runners |
-| `src/test/java/com/veeva/automation/report` | Extent Report setup and management |
-| `src/test/resources/features` | Cucumber feature files grouped by module |
-| `src/test/resources/testdata` | JSON test data such as selectors and expected slide info |
-| `src/test/resources/js` | Supporting JavaScript utilities for DOM extraction |
+| Component        | Path                                         | Description                                                                                            |
+| ---------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| Base Setup       | `src/main/java/com/veeva/automation/base`    | Classes like `BasePage` and `DriverManager`. Handles browser setup, teardown, and page initialization. |
+| Page Objects     | `src/main/java/com/veeva/automation/pages`   | Encapsulates UI pages for all modules; contains locators and page actions.                             |
+| Page Factory     | `src/main/java/com/veeva/automation/factory` | `PageFactoryManager` & support classes; initializes page objects using Selenium PageFactory.           |
+| Utilities        | `src/main/java/com/veeva/automation/utils`   | Reusable helper methods (e.g., waits, file handling, data extraction).                                 |
+| Configuration    | `src/main/resources/config/config.json`      | Global settings for environment, browser, and framework.                                               |
+| Step Definitions | `src/test/java/com/veeva/automation/steps`   | Implements Cucumber steps and scenario setup/teardown hooks.                                           |
+| Test Runners     | `src/test/java/com/veeva/automation/runner`  | Dynamic & static Cucumber TestNG runners to execute features.                                          |
+| Reporting        | `src/test/java/com/veeva/automation/report`  | Extent Report setup and management.                                                                    |
+| Features         | `src/test/resources/features`                | Cucumber feature files organized by module.                                                            |
+| Test Data        | `src/test/resources/testdata`                | JSON files containing selectors, expected slide info, and other test inputs.                           |
+| JS Utilities     | `src/test/resources/js`                      | Browser-side JavaScript utilities for DOM extraction or other operations.                              |
+
 
 ---
 
@@ -228,91 +225,18 @@ flowchart TD
 
 | Issue | Possible Cause | Resolution |
 |--------|----------------|------------|
-| `SessionNotCreatedException` | Mismatch between browser and driver versions | Chcek WebDriverManager or manually update to the latest driver that matches your browser version. |
+| `SessionNotCreatedException` | Mismatch between browser and driver versions | Update ChromeDriver/GeckoDriver |
 | `ConfigReader` returning null | Missing config.json key | Ensure  key exists |
 | JSON Parsing errors | Malformed test data JSON | Validate JSON syntax |
 
 ---
 
-## FAQ
-
-### 🔹 1. What is the purpose of the **Dynamic Runner Generator**?
-> It dynamically creates individual **Cucumber TestNG runner classes** at runtime for each feature file, enabling **parallel execution** and removing the need for multiple manually created runners.
-
----
-
-### 🔹 2. What does the **RunnerSetup** class do?
-> It initializes the **test environment** before execution — loads configuration, browser, and environment details, sets up reporting folders, and passes parameters to the dynamically generated runners.
-
----
-
-### 🔹 3. What is a **Cucumber Runner**?
-> A **Cucumber Runner** is a TestNG-based class (with `@CucumberOptions`) that triggers execution of feature files using the Cucumber engine. Each runner links features, glue code, and tags.
-
----
-
-### 🔹 4. What is the role of **TestNG.xml**?
-> `testng.xml` is the **execution controller**. It defines test suites, parallel runs, and runtime parameters like browser or environment, providing a single control point for the entire automation run.
-
----
-
-### 🔹 5. Are **Hooks** similar to **BaseTest**?
-> Yes. In BDD frameworks, **Hooks** perform setup and teardown actions just like a BaseTest — initializing the WebDriver, loading config, and cleaning up after each test scenario.
-
----
-
-### 🔹 6. Why use **Dynamic Runners** instead of static ones?
-> Dynamic Runners make the framework **scalable and maintenance-free** — new feature files are picked up automatically without manually adding new runner classes.
-
----
-
-### 🔹 7. How is **CI/CD** handled in this framework?
-> The framework is **CI/CD-ready** and integrates via **Maven**, allowing execution from command line and future integration with Jenkins or GitHub Actions.
-
----
-
-### 🔹 8. What reporting is implemented?
-> **Extent Reports (v5)** is integrated for visual HTML reporting with scenario-level logs and screenshots. It’s initialized via Hooks at runtime.
-
----
-
-### 🔹 9. How is test data managed?
-> All selectors and test data are externalized in **JSON files**, accessed dynamically through utility classes for better maintainability and flexibility.
-
----
-
-### 🔹 10. How does parallel execution work?
-> Parallel execution is managed by **TestNG** and **Dynamic Runner Generator**, where each generated runner runs in a separate thread/browser instance.
-
----
-
-### 🔹 11. How does the framework handle environment configuration?
-> It reads configuration from `config.json`, allowing easy switching between QA, UAT, and Prod without code changes.
-
----
-
-### 🔹 12. What design patterns are used?
-> The framework follows **Page Object Model (POM)**, **Factory**, and **Singleton** patterns for better scalability, maintainability, and reusability.
-
----
-
-### 🔹 13. How are logs managed?
-> Logging is handled using **Log4j2**, which captures browser actions, validations, and exceptions for debugging.
-
----
-
-### 🔹 14. Can this framework be extended to API or Mobile automation?
-> Yes. The modular structure allows easy integration with **Rest Assured** or **Appium** modules under the same execution model.
-
-
----
-
-## License
+## 🧱 License
 This framework is released under the [MIT License](LICENSE).
 
 ---
 
-## Contributing
+## 🤝 Contributing
 Contributions are welcome!  
 1. Fork this repository  
 2. Create a feature branch  
