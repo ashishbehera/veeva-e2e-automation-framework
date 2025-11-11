@@ -24,6 +24,9 @@
 10. [Execution Flow](#execution-flow)
 11. [Best Practices](#best-practices)
 12. [Troubleshooting](#troubleshooting)
+13. [FAQ](#faq)
+14. [License](#license)
+15. [Contributing](#contributing)
 
 ---
 
@@ -232,12 +235,85 @@ flowchart TD
 
 ---
 
-## 🧱 License
+## FAQ
+
+### 🔹 1. What is the purpose of the **Dynamic Runner Generator**?
+> It dynamically creates individual **Cucumber TestNG runner classes** at runtime for each feature file, enabling **parallel execution** and removing the need for multiple manually created runners.
+
+---
+
+### 🔹 2. What does the **RunnerSetup** class do?
+> It initializes the **test environment** before execution — loads configuration, browser, and environment details, sets up reporting folders, and passes parameters to the dynamically generated runners.
+
+---
+
+### 🔹 3. What is a **Cucumber Runner**?
+> A **Cucumber Runner** is a TestNG-based class (with `@CucumberOptions`) that triggers execution of feature files using the Cucumber engine. Each runner links features, glue code, and tags.
+
+---
+
+### 🔹 4. What is the role of **TestNG.xml**?
+> `testng.xml` is the **execution controller**. It defines test suites, parallel runs, and runtime parameters like browser or environment, providing a single control point for the entire automation run.
+
+---
+
+### 🔹 5. Are **Hooks** similar to **BaseTest**?
+> Yes. In BDD frameworks, **Hooks** perform setup and teardown actions just like a BaseTest — initializing the WebDriver, loading config, and cleaning up after each test scenario.
+
+---
+
+### 🔹 6. Why use **Dynamic Runners** instead of static ones?
+> Dynamic Runners make the framework **scalable and maintenance-free** — new feature files are picked up automatically without manually adding new runner classes.
+
+---
+
+### 🔹 7. How is **CI/CD** handled in this framework?
+> The framework is **CI/CD-ready** and integrates via **Maven**, allowing execution from command line and future integration with Jenkins or GitHub Actions.
+
+---
+
+### 🔹 8. What reporting is implemented?
+> **Extent Reports (v5)** is integrated for visual HTML reporting with scenario-level logs and screenshots. It’s initialized via Hooks at runtime.
+
+---
+
+### 🔹 9. How is test data managed?
+> All selectors and test data are externalized in **JSON files**, accessed dynamically through utility classes for better maintainability and flexibility.
+
+---
+
+### 🔹 10. How does parallel execution work?
+> Parallel execution is managed by **TestNG** and **Dynamic Runner Generator**, where each generated runner runs in a separate thread/browser instance.
+
+---
+
+### 🔹 11. How does the framework handle environment configuration?
+> It reads configuration from `config.json`, allowing easy switching between QA, UAT, and Prod without code changes.
+
+---
+
+### 🔹 12. What design patterns are used?
+> The framework follows **Page Object Model (POM)**, **Factory**, and **Singleton** patterns for better scalability, maintainability, and reusability.
+
+---
+
+### 🔹 13. How are logs managed?
+> Logging is handled using **Log4j2**, which captures browser actions, validations, and exceptions for debugging.
+
+---
+
+### 🔹 14. Can this framework be extended to API or Mobile automation?
+> Yes. The modular structure allows easy integration with **Rest Assured** or **Appium** modules under the same execution model.
+
+
+---
+
+## License
 This framework is released under the [MIT License](LICENSE).
 
 ---
 
-## 🤝 Contributing
+## Contributing
 Contributions are welcome!  
 1. Fork this repository  
 2. Create a feature branch  
