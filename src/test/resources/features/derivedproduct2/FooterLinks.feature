@@ -3,7 +3,7 @@ Feature: Validate Footer Links on DP2 Home Page
   I want to verify all footer hyperlinks are unique
   So that there are no duplicate links present
 
- @Smoke @Regression
+  @Smoke
   Scenario: Extract and validate footer hyperlinks
     Given user is on the DP2 home page
     When user scrolls to the footer section

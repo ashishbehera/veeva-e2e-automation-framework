@@ -2,20 +2,20 @@
 <suite name="Veeva Automation Suite" parallel="tests" thread-count="2">
     <test name="Chrome Tests">
         <parameter name="browser" value="chrome"/>
-        <parameter name="cucumber.filter.tags" value="@Test"/> <!-- Add tags here -->
+        <parameter name="cucumber.filter.tags" value="@Smoke"/> <!-- Add tags here -->
         <classes>
             <class name="com.veeva.automation.runner.RunnerSetup"/>
             <class name="com.veeva.automation.runner.TestNGTestRunner"/>
         </classes>
     </test>
 
-<!--     <test name="Firefox Tests">
+    <test name="Firefox Tests">
         <parameter name="browser" value="firefox"/>
-        <parameter name="cucumber.filter.tags" value="@Regression"/> 
+        <parameter name="cucumber.filter.tags" value="@Smoke"/> 
         <classes>
             <class name="com.veeva.automation.runner.RunnerSetup"/>
             <class name="com.veeva.automation.runner.TestNGTestRunner"/>
         </classes>
-    </test> -->
+    </test>
 
 </suite>

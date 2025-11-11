@@ -3,7 +3,7 @@ Feature: New & Features Page Verification
   I want to navigate to the New & Features page and verify video feeds
   So that I can ensure the content is displayed correctly
 
- @Smoke
+  @Smoke
   Scenario: Navigate to New & Features page and verify video feeds
     Given I am on the CP home page
     When I hover on the Menu Item in the navigation bar
