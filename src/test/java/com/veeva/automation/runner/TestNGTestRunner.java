@@ -61,7 +61,9 @@ import com.veeva.automation.utils.ConfigReaderJSON;
         plugin = {
                 "pretty",
                 "html:target/cucumber-reports/cucumber.html",
-                "json:target/cucumber-reports/cucumber.json"
+                "json:target/cucumber-reports/cucumber.json",
+                "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
+
         }
 )
 public class TestNGTestRunner extends AbstractTestNGCucumberTests {

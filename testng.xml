@@ -2,7 +2,7 @@
 <suite name="Veeva Automation Suite" parallel="tests" thread-count="2">
     <test name="Chrome Tests">
         <parameter name="browser" value="chrome"/>
-        <parameter name="cucumber.filter.tags" value="@Smoke"/> <!-- Add tags here -->
+        <parameter name="cucumber.filter.tags" value="@Test"/> <!-- Add tags here -->
         <classes>
             <class name="com.veeva.automation.runner.RunnerSetup"/>
             <class name="com.veeva.automation.runner.TestNGTestRunner"/>

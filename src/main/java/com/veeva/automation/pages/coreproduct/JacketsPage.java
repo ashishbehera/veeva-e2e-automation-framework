@@ -34,7 +34,7 @@ public class JacketsPage extends BasePage{
 	private String price = ".price-card";
 	private String badge = ".product-badges-container";
 	private String pageAttribute = "aria-disabled";
-	private String pageAttributeValue = "aria-disabled";
+	private String pageAttributeValue = "false";
     private static final String EXTRACT_PRODUCTS_JS = "src/test/resources/js/extractProducts.js";
 
 
@@ -73,6 +73,7 @@ public class JacketsPage extends BasePage{
     public boolean goToNextPageIfExists() {
         try {
             if (nextPage.getAttribute(pageAttribute).equalsIgnoreCase(pageAttributeValue)) {
+            	System.out.println("I am inside goToNextPageIfExists()");
                 nextPage.click();
                 wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(productCard)));
                 return true;

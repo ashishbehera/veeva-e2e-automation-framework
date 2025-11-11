@@ -1,6 +1,6 @@
 Feature: Shop Jackets in Warriors Store
 
-  @Smoke		
+  @Smoke @Test		
   Scenario: Validate Jacket Prices and Titles
     Given user is on Warriors Shop Men’s Jackets page
     When user extracts all jacket details
