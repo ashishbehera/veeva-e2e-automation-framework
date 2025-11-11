@@ -34,7 +34,7 @@ public class JacketsPage extends BasePage{
 	private String price = ".price-card";
 	private String badge = ".product-badges-container";
 	private String pageAttribute = "aria-disabled";
-	private String pageAttributeValue = "aria-disabled";
+	private String pageAttributeValue = "false";
     private static final String EXTRACT_PRODUCTS_JS = "src/test/resources/js/extractProducts.js";
 
 
