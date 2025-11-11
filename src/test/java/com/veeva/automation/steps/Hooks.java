@@ -8,6 +8,7 @@ import com.veeva.automation.base.DriverManager;
 import com.veeva.automation.factory.PageFactoryManager;
 import com.veeva.automation.report.ExtentManager;
 import com.veeva.automation.report.ExtentTestManager;
+import com.veeva.automation.utils.ConfigReaderJSON;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -45,9 +46,9 @@ public class Hooks {
                 .getTestContext()
                 .getCurrentXmlTest()
                 .getParameter("browser");
-
+        String browserFromJson = ConfigReaderJSON.get("browser.type").toLowerCase();
         if (browser == null || browser.isEmpty()) browser = System.getProperty("browser");
-        if (browser == null || browser.isEmpty()) browser = FrameworkConstants.DEFAULT_BROWSER;
+        if (browser == null || browser.isEmpty()) browser = browserFromJson;
 
         System.out.println("🚀 Launching browser: " + browser);
         DriverManager.initDriver(browser);

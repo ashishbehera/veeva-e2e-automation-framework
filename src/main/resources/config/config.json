@@ -13,8 +13,10 @@
     "headless": false,
     "implicitWait": 10,
     "explicitWait": 20,
-    "pageLoadTimeout": 40,
-    "maximizeWindow": true
+    "pageLoadTimeout": 60,
+    "maximizeWindow": false,
+    "width": 1920,
+    "height": 1080
   },
 
   "parallelExecution": {

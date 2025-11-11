@@ -17,79 +17,91 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import static com.veeva.automation.constants.FrameworkConstants.*;
 
 /**
- * DriverManager
- * -------------------
- * Thread-safe WebDriver manager for parallel execution.
- * Supports Chrome, Firefox, Edge, headless mode.
+ * DriverManager ------------------- Thread-safe WebDriver manager for parallel
+ * execution. Supports Chrome, Firefox, Edge, headless mode.
  */
 public class DriverManager {
 
-    private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+	private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
-    public static void initDriver(String browserName) {
-        if (driver.get() != null) return; // Already initialized
+	public static void initDriver(String browserName) {
+		if (driver.get() != null) return; // Already initialized
 
-        String browser = (browserName != null && !browserName.isEmpty()) 
-                ? browserName.toLowerCase() 
-                : ConfigReaderJSON.get("browser.type").toLowerCase();
+	    // ✅ Read all config values once
+	    String browserFromJson = ConfigReaderJSON.get("browser.type").toLowerCase();
+	    String browser = (browserName != null && !browserName.isEmpty()) ? browserName.toLowerCase() : browserFromJson;
 
-        String headlessProp = System.getProperty("browser.headless");
-        boolean headless = (headlessProp != null) 
-            ? Boolean.parseBoolean(headlessProp) 
-            : ConfigReaderJSON.getBoolean("browser.headless");
-        System.out.println("🚀 Running browser: " + browser + " | Headless: " + headless);
+	    boolean headless = System.getProperty("browser.headless") != null
+	            ? Boolean.parseBoolean(System.getProperty("browser.headless"))
+	            : ConfigReaderJSON.getBooleanValue("/browser/headless");
 
-        switch (browser) {
-            case "chrome":
-                WebDriverManager.chromedriver().setup();
-                ChromeOptions chromeOptions = new ChromeOptions();
-                if (headless) chromeOptions.addArguments("--headless=new", "--disable-gpu");
-                chromeOptions.addArguments(CHROME_COMMON_ARGS);
-                chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-                chromeOptions.setExperimentalOption("useAutomationExtension", false);
-                driver.set(new ChromeDriver(chromeOptions));
-                break;
+	    int width = ConfigReaderJSON.getIntValue("/browser/width");
+	    int height = ConfigReaderJSON.getIntValue("/browser/height");
+	    boolean maximize = ConfigReaderJSON.getBooleanValue("/browser/maximizeWindow");
+	    int implicitWait = ConfigReaderJSON.getIntValue("/browser/implicitWait");
 
-            case "firefox":
-                WebDriverManager.firefoxdriver().setup();
-                FirefoxOptions firefoxOptions = new FirefoxOptions();
-                if (headless) firefoxOptions.addArguments("--headless");
-                firefoxOptions.addArguments(FIREFOX_COMMON_ARGS);
-                firefoxOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-                driver.set(new FirefoxDriver(firefoxOptions));
-                break;
+	    System.out.println("🚀 Running browser: " + browser + " | Headless: " + headless);
 
-            case "edge":
-                WebDriverManager.edgedriver().setup();
-                EdgeOptions edgeOptions = new EdgeOptions();
-                if (headless) edgeOptions.addArguments("--headless=new");
-                edgeOptions.addArguments("--window-size=" + BROWSER_WIDTH + "," + BROWSER_HEIGHT);
-                driver.set(new EdgeDriver(edgeOptions));
-                break;
+	    // ✅ Initialize browser
+	    switch (browser) {
+	        case "chrome" : {
+	            WebDriverManager.chromedriver().setup();
+	            ChromeOptions options = new ChromeOptions();
+	            if (headless) options.addArguments("--headless=new", "--disable-gpu");
+	            options.addArguments(CHROME_COMMON_ARGS);
+	            options.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+	            options.setExperimentalOption("useAutomationExtension", false);
+	            driver.set(new ChromeDriver(options));
+	            break;
+	        }
 
-            default:
-                throw new RuntimeException("❌ Unsupported browser: " + browser);
-        }
+	        case "firefox": {
+	            WebDriverManager.firefoxdriver().setup();
+	            FirefoxOptions options = new FirefoxOptions();
+	            if (headless) options.addArguments("--headless");
+	            options.addArguments(FIREFOX_COMMON_ARGS);
+	            options.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+	            driver.set(new FirefoxDriver(options));
+	            break;
+	        }
 
-        driver.get().manage().window().setSize(new Dimension(BROWSER_WIDTH, BROWSER_HEIGHT));
-        driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(IMPLICIT_WAIT_SECONDS));
-    }
+	        case "edge": {
+	            WebDriverManager.edgedriver().setup();
+	            EdgeOptions options = new EdgeOptions();
+	            if (headless) options.addArguments("--headless=new");
+	            driver.set(new EdgeDriver(options));
+	            break;
+	        }
 
-    public static WebDriver getDriver() {
-        if (driver.get() == null) {
-            String browser = System.getProperty("browser");
-            if (browser == null || browser.isEmpty()) {
-                browser = ConfigReaderJSON.get("browser.type");
-            }
-            initDriver(browser);
-        }
-        return driver.get();
-    }
+	        default:
+	        	throw new RuntimeException("❌ Unsupported browser: " + browser);
+	    }
+	    // ✅ Window size
+	    if (maximize) {
+	        driver.get().manage().window().maximize();
+	    } else {
+	        driver.get().manage().window().setSize(new Dimension(width, height));
+	    }
 
-    public static void quitDriver() {
-        if (driver.get() != null) {
-            driver.get().quit();
-            driver.remove();
-        }
-    }
+	    // ✅ Implicit wait
+	    driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitWait));
+	}
+
+	public static WebDriver getDriver() {
+		if (driver.get() == null) {
+			String browser = System.getProperty("browser");
+			if (browser == null || browser.isEmpty()) {
+				browser = ConfigReaderJSON.get("browser.type");
+			}
+			initDriver(browser);
+		}
+		return driver.get();
+	}
+
+	public static void quitDriver() {
+		if (driver.get() != null) {
+			driver.get().quit();
+			driver.remove();
+		}
+	}
 }

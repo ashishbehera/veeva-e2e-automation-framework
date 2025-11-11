@@ -2,6 +2,7 @@ package com.veeva.automation.pages.derivedproduct1;
 
 import com.veeva.automation.base.BasePage;
 import com.veeva.automation.pages.coreproduct.CoreHomePage;
+import com.veeva.automation.utils.ConfigReaderJSON;
 import com.veeva.automation.utils.LogUtils;
 
 import static com.veeva.automation.constants.FrameworkConstants.*;
@@ -23,6 +24,7 @@ public class DP1SlidesPage extends BasePage {
 
     @FindBy(css = "li[data-testid$='nav-item-/sixers/tickets']")
     private WebElement ticketMenuElement;
+    int explicitWait;
  
  
 
@@ -37,7 +39,8 @@ public class DP1SlidesPage extends BasePage {
 
     public DP1SlidesPage(WebDriver driver) {
         super(driver);
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_WAIT));
+        this.explicitWait = ConfigReaderJSON.getIntValue("/browser/explicitWait");
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(explicitWait));
     }
     
     public void waitForTicketsMenuToAppear() {  	
