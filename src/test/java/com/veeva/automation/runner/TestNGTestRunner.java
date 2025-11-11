@@ -61,9 +61,7 @@ import com.veeva.automation.utils.ConfigReaderJSON;
         plugin = {
                 "pretty",
                 "html:target/cucumber-reports/cucumber.html",
-                "json:target/cucumber-reports/cucumber.json",
-                "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
-
+                "json:target/cucumber-reports/cucumber.json"
         }
 )
 public class TestNGTestRunner extends AbstractTestNGCucumberTests {
@@ -88,21 +86,14 @@ public class TestNGTestRunner extends AbstractTestNGCucumberTests {
         // ----------------------------
         // Step 2: Resolve Tags
         // ----------------------------
-     // ----------------------------
-     // Step 2: Resolve Tags
-     // ----------------------------
-     String tags = System.getProperty(FILTER_TAGS_KEY);
-     if (tags == null || tags.isEmpty()) tags = xmlTags;
-
-     if (tags != null && !tags.isEmpty()) {
-         // Transform comma-separated CLI tags into "or" format for Cucumber
-         // Example: "@Smoke,@Regression" -> "@Smoke or @Regression"
-         tags = tags.replace(",", " or ");
-         System.setProperty("cucumber.filter.tags", tags);
-     } else {
-         System.out.println("⚠️ No tags provided, executing all feature files.");
-         System.clearProperty("cucumber.filter.tags");
-     }
+        String tags = System.getProperty(FILTER_TAGS_KEY);
+        if (tags == null || tags.isEmpty()) tags = xmlTags;
+        if (tags == null || tags.isEmpty()) {
+            System.out.println("⚠️ No tags provided, executing all feature files.");
+            System.clearProperty("cucumber.filter.tags");
+        } else {
+            System.setProperty("cucumber.filter.tags", tags);
+        }
 
         // ----------------------------
         // Step 3: Print Execution Context

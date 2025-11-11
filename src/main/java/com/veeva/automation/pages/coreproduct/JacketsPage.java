@@ -1,19 +1,27 @@
 package com.veeva.automation.pages.coreproduct;
 
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.veeva.automation.base.BasePage;
-import com.veeva.automation.utils.ConfigReaderJSON;
 import com.veeva.automation.utils.FileUtils;
+import com.veeva.automation.utils.LogUtils;
+import com.veeva.automation.utils.TestDataUtils;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 
 public class JacketsPage extends BasePage{
 
+    private final WebDriver driver;
     private final WebDriverWait wait;
     // selectors map
     @FindBy(css = "div[class='pagination-component'] a[aria-label='next page']")
@@ -28,14 +36,14 @@ public class JacketsPage extends BasePage{
 	private String pageAttribute = "aria-disabled";
 	private String pageAttributeValue = "false";
     private static final String EXTRACT_PRODUCTS_JS = "src/test/resources/js/extractProducts.js";
-    int explicitWait;
 
 
 
     public JacketsPage(WebDriver driver) {
     	super(driver);
-        this.explicitWait = ConfigReaderJSON.getIntValue("/browser/explicitWait");
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(explicitWait));           
+        this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+           
     }
     
     
@@ -65,7 +73,6 @@ public class JacketsPage extends BasePage{
     public boolean goToNextPageIfExists() {
         try {
             if (nextPage.getAttribute(pageAttribute).equalsIgnoreCase(pageAttributeValue)) {
-            	System.out.println("I am inside goToNextPageIfExists()");
                 nextPage.click();
                 wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(productCard)));
                 return true;

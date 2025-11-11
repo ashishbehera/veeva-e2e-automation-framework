@@ -5,13 +5,8 @@ import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
     features = "<FEATURE_PATH>",
-    glue = {"com.veeva.automation.steps"},
-    plugin = {
-        "pretty",
-        "json:target/cucumber-reports/cucumber-<BROWSER>.json",
-        "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
-    },
-    monochrome = true
+    glue = "com.veeva.automation.steps",
+    plugin = {"json:target/cucumber-reports/cucumber-<BROWSER>.json"}
 )
 public class <RUNNER_NAME> extends AbstractTestNGCucumberTests {
 }

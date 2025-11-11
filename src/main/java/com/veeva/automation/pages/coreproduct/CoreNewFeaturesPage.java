@@ -79,6 +79,14 @@ public class CoreNewFeaturesPage extends BasePage {
         log.info("Total video feed count: {}", currentCount);
         return currentCount;
     }
+
+
+
+    public long getThreeDVideoCount() {
+        return allVideoFeeds.stream()
+                .filter(v -> v.getText().toLowerCase().contains("3d"))
+                .count();
+    }
     
     public long countVideosOlderThan3Days() {
     	return countByChildTextCondition(

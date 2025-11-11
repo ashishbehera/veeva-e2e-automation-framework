@@ -104,14 +104,9 @@
     <artifactId>cucumber-picocontainer</artifactId>
     <version>7.20.0</version>
 </dependency>
-<!-- https://mvnrepository.com/artifact/tech.grasshopper/extentreports-cucumber7-adapter -->
-<dependency>
-    <groupId>tech.grasshopper</groupId>
-    <artifactId>extentreports-cucumber7-adapter</artifactId>
-    <version>1.14.0</version>
-</dependency>
 
     </dependencies>
+    <!-- Log4j2 Core & API -->
 
        
 

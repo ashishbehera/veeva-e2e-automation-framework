@@ -1,15 +1,13 @@
 package com.veeva.automation.base;
 
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.veeva.automation.pages.coreproduct.CoreHomePage;
 import com.veeva.automation.utils.ConfigReaderJSON;
-import com.veeva.automation.utils.LogUtils;
+
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -25,6 +23,7 @@ public class BasePage {
 
     protected WebDriver driver;
     protected WebDriverWait wait;
+    private int scrollValue=10;
     int explicitWait;
 
     // 🔹 Popups / Modals
@@ -36,8 +35,6 @@ public class BasePage {
 
     @FindBy(xpath = "//button[contains(text(),'I Accept') or contains(text(),'I Decline')]")
     protected WebElement cookiesBtn;
-    // 🔹 Logger
-    private static final Logger log = LogUtils.getLogger(BasePage.class);
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
@@ -52,14 +49,14 @@ public class BasePage {
         try {
             // Cookies
             if (isElementVisible(cookiesBtn)) {
-                log.info("🍪 Cookie banner detected. Closing...");
+                System.out.println("🍪 Cookie banner detected. Closing...");
                 cookiesBtn.click();
                 wait.until(ExpectedConditions.invisibilityOf(cookiesBtn));
             }
 
             // Modal backdrop
             if (isElementVisible(modalBackdrop)) {
-            	  log.info("🪟 Modal overlay detected.");
+                System.out.println("🪟 Modal overlay detected.");
                 try {
                     if (isElementVisible(closeModalBtn)) {
                         closeModalBtn.click();
@@ -72,9 +69,9 @@ public class BasePage {
                     wait.until(ExpectedConditions.invisibilityOf(modalBackdrop));
                 } catch (Exception ignored) {
                 }
-            }      
+            }
         } catch (Exception e) {
-        	  log.info("ℹ️ No blocking popups detected: " + e.getMessage());
+            System.out.println("ℹ️ No blocking popups detected: " + e.getMessage());
         }
     }
 
@@ -86,7 +83,7 @@ public class BasePage {
         try {
             wait.until(ExpectedConditions.elementToBeClickable(element)).click();
         } catch (ElementClickInterceptedException e) {
-        	  log.info("⚠️ Click intercepted — retrying after handling popups...");
+            System.out.println("⚠️ Click intercepted — retrying after handling popups...");
             handleBlockingPopups();
             wait.until(ExpectedConditions.elementToBeClickable(element)).click();
         }
@@ -97,7 +94,7 @@ public class BasePage {
         try {
             String currentWindow = driver.getWindowHandle();
             wait.until(ExpectedConditions.elementToBeClickable(element)).click();
-            log.info("🛒 Clicked on Shop link, waiting for new window...");
+            System.out.println("🛒 Clicked on Shop link, waiting for new window...");
 
             wait.until(d -> d.getWindowHandles().size() > 1);
 
@@ -112,7 +109,7 @@ public class BasePage {
 
             waitForPageToLoadCompletely();
         } catch (ElementClickInterceptedException e) {
-        	  log.info("⚠️ Click intercepted — retrying after handling popups...");
+            System.out.println("⚠️ Click intercepted — retrying after handling popups...");
             handleBlockingPopups();
             wait.until(ExpectedConditions.elementToBeClickable(element)).click();
         }
@@ -122,7 +119,7 @@ public class BasePage {
         try {
             wait.until(ExpectedConditions.elementToBeClickable(element)).click();
         } catch (ElementClickInterceptedException e) {
-        	  log.info("⚠️ Click intercepted — retrying after handling popups...");
+            System.out.println("⚠️ Click intercepted — retrying after handling popups...");
             wait.until(ExpectedConditions.elementToBeClickable(element)).click();
         }
     }
@@ -171,10 +168,18 @@ public class BasePage {
         });
     }
 
+    public void scrollAndWaitForVideos() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        int scrolls = 0;
+        while (scrolls < scrollValue) {
+            js.executeScript("window.scrollBy(0, document.body.scrollHeight)");
+            scrolls++;
+        }
+    }
 
     public void openHomePage(String url) {
         driver.get(url);
-        log.info("🌐 Navigated to the desired page with Page URL: " + url);
+        System.out.println("🌐 Navigated to the desired page with Page URL: " + url);
     }
 
     /**
@@ -198,25 +203,14 @@ public class BasePage {
         ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight)");
     }
 
+    @SuppressWarnings("unchecked")
     protected List<WebElement> getElements(WebElement parent, String cssSelector) {
         try {
             JavascriptExecutor js = (JavascriptExecutor) driver;
-            Object result = js.executeScript(
+            return (List<WebElement>) js.executeScript(
                     "return arguments[0].querySelectorAll(arguments[1]);", parent, cssSelector);
-
-            if (result instanceof List<?>) {
-                List<?> rawList = (List<?>) result;
-                List<WebElement> elements = new ArrayList<>();
-                for (Object item : rawList) {
-                    if (item instanceof WebElement) {
-                        elements.add((WebElement) item);
-                    }
-                }
-                return elements;
-            }
         } catch (Exception e) {
+            return new ArrayList<>();
         }
-        return new ArrayList<>();
     }
-
 }

@@ -1,10 +1,9 @@
- package com.veeva.automation.steps;
+package com.veeva.automation.steps;
 
 import io.cucumber.java.Before;
 import io.cucumber.java.After;
 import io.cucumber.java.Scenario;
 
-import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import com.veeva.automation.base.DriverManager;
 import com.veeva.automation.factory.PageFactoryManager;
 import com.veeva.automation.report.ExtentManager;
@@ -17,7 +16,6 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Reporter;
 
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import com.veeva.automation.constants.HooksConstants;
 import com.veeva.automation.constants.FrameworkConstants;
@@ -67,28 +65,16 @@ public class Hooks {
     }
 
     @After(order = 0)
-    public void attachJacketFile(Scenario scenario) {
+    public void attachJacketFile(Scenario scenario) throws Exception {
         if (scenario.getName().equalsIgnoreCase(HooksConstants.JACKET_SCENARIO_NAME)) {
-            Path jacketPath = Paths.get(HooksConstants.JACKET_FILE);
-
-            if (Files.exists(jacketPath)) {
-                // Log a clickable link in Extent Report
-                String absolutePath = jacketPath.toAbsolutePath().toString();
-                String linkHtml = String.format(
-                    "<a href='file:///%s' target='_blank'>📎 Open JacketData.txt</a>",
-                    absolutePath.replace("\\", "/") // normalize for Windows/Mac
-                );
-
-                scenario.log("📎 JacketData saved successfully: " + absolutePath);
-                ExtentCucumberAdapter.addTestStepLog(linkHtml);
+            if (Files.exists(Paths.get(HooksConstants.JACKET_FILE))) {
+                byte[] fileContent = Files.readAllBytes(Paths.get(HooksConstants.JACKET_FILE));
+                scenario.attach(fileContent, "text/plain", "JacketData.txt");
             } else {
-                scenario.log("⚠️ JacketData.txt not found – nothing to attach.");
-                ExtentCucumberAdapter.addTestStepLog("⚠️ JacketData.txt not found – nothing to attach.");
+                scenario.log("JacketData.txt not found – nothing to attach.");
             }
         }
     }
-
-
  // -----------------------------
     // After each scenario
     // -----------------------------

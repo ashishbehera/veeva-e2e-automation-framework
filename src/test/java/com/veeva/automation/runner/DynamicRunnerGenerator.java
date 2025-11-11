@@ -25,14 +25,6 @@ public class DynamicRunnerGenerator {
         if (!Files.exists(outputDirPath)) {
             Files.createDirectories(outputDirPath);
         }
-     // Clean old runners before generating new ones
-        try (Stream<Path> existingRunners = Files.walk(outputDirPath)) {
-            existingRunners.filter(Files::isRegularFile)
-                           .forEach(path -> {
-                               try { Files.delete(path); } catch (IOException e) { e.printStackTrace(); }
-                           });
-        }
-
 
         // Scan all feature files
         try (Stream<Path> featureFiles = Files.walk(Paths.get(FEATURE_PATH))) {
