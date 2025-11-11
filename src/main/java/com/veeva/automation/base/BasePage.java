@@ -3,10 +3,11 @@ package com.veeva.automation.base;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import static com.veeva.automation.constants.FrameworkConstants.*;
+
+import com.veeva.automation.utils.ConfigReaderJSON;
+
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class BasePage {
     protected WebDriver driver;
     protected WebDriverWait wait;
     private int scrollValue=10;
+    int explicitWait;
 
     // 🔹 Popups / Modals
     @FindBy(css = ".CustomModal_backdrop__TTyum")
@@ -36,7 +38,8 @@ public class BasePage {
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_WAIT));
+        this.explicitWait = ConfigReaderJSON.getIntValue("/browser/explicitWait");
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(explicitWait));
     }
 
     /**
@@ -93,8 +96,7 @@ public class BasePage {
             wait.until(ExpectedConditions.elementToBeClickable(element)).click();
             System.out.println("🛒 Clicked on Shop link, waiting for new window...");
 
-            new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_WAIT))
-                    .until(d -> d.getWindowHandles().size() > 1);
+            wait.until(d -> d.getWindowHandles().size() > 1);
 
             Set<String> allWindows = driver.getWindowHandles();
             for (String window : allWindows) {

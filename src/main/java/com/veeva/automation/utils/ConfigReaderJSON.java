@@ -16,7 +16,7 @@ import java.io.IOException;
 public class ConfigReaderJSON {
 
     private static JsonNode rootNode;
-    private static final String JSON_CONFIG_FILE_PATH = FrameworkConstants.getConfigJsonFilePath();
+    private static final String JSON_CONFIG_FILE_PATH = FrameworkConstants.CONFIG_JSON_FILE_PATH;
 
     static {
         try {
@@ -47,15 +47,15 @@ public class ConfigReaderJSON {
     /**
      * Optional helper to get integer values
      */
-    public static int getInt(String key) {
-        return Integer.parseInt(get(key));
+    public static int getIntValue(String jsonPointer) {
+        return rootNode.at(jsonPointer).asInt();
     }
 
     /**
      * Optional helper to get boolean values
      */
-    public static boolean getBoolean(String key) {
-        return Boolean.parseBoolean(get(key));
+    public static boolean getBooleanValue(String jsonPointer) {
+        return rootNode.at(jsonPointer).asBoolean();
     }
 
     /**

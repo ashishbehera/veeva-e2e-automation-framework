@@ -3,6 +3,7 @@ package com.veeva.automation.report;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.veeva.automation.constants.FrameworkConstants;
+import com.veeva.automation.utils.ConfigReaderJSON;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -16,19 +17,25 @@ public class ExtentManager {
 
     public static ExtentReports getInstance() {
         if (extent == null) {
-            // Build report path dynamically
-        	String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        	String reportPath = FrameworkConstants.REPORTS_FOLDER 
-        	                    + File.separator 
-        	                    + "ExtentReport_" + timestamp + ".html";
-            
-            ExtentSparkReporter spark = new ExtentSparkReporter(reportPath);
-            spark.config().setDocumentTitle(FrameworkConstants.EXTENT_REPORT_TITLE);
-            spark.config().setReportName(FrameworkConstants.EXTENT_REPORT_NAME);
+            synchronized (ExtentManager.class) {
+                if (extent == null) {
+                    String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                    String reportPath = FrameworkConstants.REPORTS_FOLDER 
+                                        + File.separator 
+                                        + "ExtentReport_" + timestamp + ".html";
+                    String title = ConfigReaderJSON.get("reporting.extentReport.title");
+                    String name = ConfigReaderJSON.get("reporting.extentReport.name");
 
-            extent = new ExtentReports();
-            extent.attachReporter(spark);
+                    ExtentSparkReporter spark = new ExtentSparkReporter(reportPath);
+                    spark.config().setDocumentTitle(title);
+                    spark.config().setReportName(name);
+
+                    extent = new ExtentReports();
+                    extent.attachReporter(spark);
+                }
+            }
         }
         return extent;
     }
+
 }
